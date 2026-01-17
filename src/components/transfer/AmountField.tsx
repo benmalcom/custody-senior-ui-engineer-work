@@ -119,7 +119,7 @@ interface AmountFieldProps {
     balance?: string
     fee?: string
     decimals: number
-    symbol: string
+    symbol?: string
     icon?: ReactNode
     isActive?: boolean
     isDisabled?: boolean
