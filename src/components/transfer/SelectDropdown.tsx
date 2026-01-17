@@ -1,27 +1,7 @@
 import { cn } from '@/components/utils'
 import { Search, Info } from 'lucide-react'
 import { useState, useMemo, type ReactNode, type MouseEvent } from 'react'
-
-// Custom filter icon matching Figma
-function FilterIcon({ className }: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className={className}
-        >
-            <path
-                d="M14.6459 2.68595L14.6415 1.15043L1.16284 1.18853L1.16719 2.7249C1.1685 3.19011 1.42352 3.61871 1.83471 3.84706L6.01735 6.16785L6.24879 6.29574L6.26838 13.2254L9.58866 11.4553L9.57405 6.28634L13.983 3.81272C14.3937 3.58227 14.6472 3.15174 14.6459 2.68595ZM15.5562 2.68337C15.5584 3.47256 15.1293 4.20171 14.4333 4.59215L10.4858 6.80653L10.5005 11.9893L5.36231 14.729L5.33996 6.82107L1.38877 4.62902C0.69158 4.24225 0.259107 3.51599 0.256878 2.72748L0.25 0.293945L15.5493 0.250705L15.5562 2.68337Z"
-                fill="#191925"
-                stroke="#191925"
-                strokeWidth="0.5"
-            />
-        </svg>
-    )
-}
+import { FilterIcon } from '@/components/icons'
 
 export interface FilterTab {
     id: string

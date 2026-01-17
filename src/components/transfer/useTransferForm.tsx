@@ -11,7 +11,7 @@ import {
 import { transferFormSchema, defaultTransferFormValues } from './schemas'
 import { submitTransfer } from '@/api'
 import type { SelectOption } from './SelectField'
-import { User, Vault } from 'lucide-react'
+import { buildFromOptions, buildAssetOptions, buildToOptions, buildToFilterTabs } from './transferFormOptions'
 
 type FormStep = 'from' | 'asset' | 'amount' | 'to' | 'memo' | null
 
@@ -187,91 +187,25 @@ export function useTransferForm() {
     }, [form])
 
     // Asset options - with balance and network name
-    const assetOptions = useMemo((): SelectOption[] => {
-        if (!assets) return []
-        return assets.map((asset) => ({
-            id: asset.id,
-            label: asset.symbol,
-            sublabel: getNetworkName(asset.networkId),
-            balance: '24.38 ' + asset.symbol,
-            balanceUsd: '$876.72',
-            icon: (
-                <img
-                    src={asset.logoUri}
-                    alt={asset.symbol}
-                    className="h-[30px] w-[30px] rounded-full"
-                    onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/30'
-                    }}
-                />
-            ),
-        }))
-    }, [assets, getNetworkName])
+    const assetOptions = useMemo(
+        (): SelectOption[] => buildAssetOptions(assets, getNetworkName),
+        [assets, getNetworkName]
+    )
 
     // From options (vaults) - no icon, just vault names
-    const fromOptions = useMemo((): SelectOption[] => {
-        if (!vaults) return []
-
-        return vaults.map((vault) => ({
-            id: vault.id,
-            label: vault.name,
-            filterIds: ['vaults'],
-        }))
-    }, [vaults])
+    const fromOptions = useMemo((): SelectOption[] => buildFromOptions(vaults), [vaults])
 
     // To options - matching Figma design, excluding source vault
-    const toOptions = useMemo((): SelectOption[] => {
-        return allAddresses
-            .filter((addr) => {
-                if (addr.isVault && addr.vaultId === selectedVaultId) {
-                    return false
-                }
-                return true
-            })
-            .map((addr) => {
-                const filterIds: string[] = []
-                if (addr.isVault) filterIds.push('vaults')
-                if (!addr.isExternal && !addr.isVault) filterIds.push('internal')
-                if (addr.isExternal) filterIds.push('external')
-
-                const sublabel = addr.isVault
-                    ? undefined
-                    : getNetworkName(selectedAsset?.networkId || '')
-
-                return {
-                    id: addr.address,
-                    label: addr.name,
-                    sublabel,
-                    address: addr.address,
-                    filterIds,
-                    icon: addr.isVault ? (
-                        <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                            <Vault className="h-[16px] w-[16px] text-[#191925]" />
-                        </div>
-                    ) : (
-                        <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                            <User className="h-[16px] w-[16px] text-[#191925]" />
-                        </div>
-                    ),
-                }
-            })
-    }, [allAddresses, selectedAsset, getNetworkName, selectedVaultId])
+    const toOptions = useMemo(
+        (): SelectOption[] => buildToOptions(allAddresses, selectedVaultId, selectedAsset, getNetworkName),
+        [allAddresses, selectedAsset, getNetworkName, selectedVaultId]
+    )
 
     // Filter tabs for To field
-    const toFilterTabs = useMemo(() => {
-        const filteredAddresses = allAddresses.filter(
-            (a) => !(a.isVault && a.vaultId === selectedVaultId)
-        )
-        const vaultCount = filteredAddresses.filter((a) => a.isVault).length
-        const internalCount = filteredAddresses.filter((a) => !a.isExternal && !a.isVault).length
-        const externalCount = filteredAddresses.filter((a) => a.isExternal).length
-
-        return [
-            { id: 'vaults', label: 'Vaults', count: vaultCount },
-            { id: 'internal', label: 'Internal Whitelist', count: internalCount },
-            { id: 'external', label: 'External Whitelist', count: externalCount },
-        ]
-    }, [allAddresses, selectedVaultId])
+    const toFilterTabs = useMemo(
+        () => buildToFilterTabs(allAddresses, selectedVaultId),
+        [allAddresses, selectedVaultId]
+    )
 
     const activeStepIndex = activeStep ? STEPS.indexOf(activeStep) : -1
 
