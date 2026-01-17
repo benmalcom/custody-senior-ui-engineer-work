@@ -15,7 +15,7 @@ export const transferFormSchema = z.object({
             },
             { message: 'Amount must be greater than 0' }
         ),
-    memo: z.string().optional(),
+    memo: z.string().min(1, 'Memo is required'),
 })
 
 export type TransferFormValues = z.infer<typeof transferFormSchema>

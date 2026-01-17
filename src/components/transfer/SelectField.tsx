@@ -1,7 +1,10 @@
 import { cn } from '@/components/utils'
 import type { ReactNode } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { SelectDropdown, type SelectOption, type FilterTab } from './SelectDropdown'
 
-// Custom chevron that matches Figma exactly
+export type { SelectOption, FilterTab }
+
 function ChevronDown({ className }: { className?: string }) {
     return (
         <svg
@@ -22,8 +25,6 @@ function ChevronDown({ className }: { className?: string }) {
     )
 }
 
-// Loading indicator matching Figma
-// Loading spinner matching Figma
 function LoadingIcon({ className }: { className?: string }) {
     return (
         <svg
@@ -90,7 +91,6 @@ function LoadingIcon({ className }: { className?: string }) {
     )
 }
 
-// Error icon matching Figma
 function ErrorIcon({ className }: { className?: string }) {
     return (
         <svg
@@ -110,74 +110,128 @@ function ErrorIcon({ className }: { className?: string }) {
     )
 }
 
+function ErrorInfoIcon({ className }: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="2"
+            height="10"
+            viewBox="0 0 2 10"
+            fill="none"
+            className={className}
+        >
+            <path
+                d="M0.161537 9.05456V2.52507H1.43258V9.05456H0.161537ZM0.803433 1.5176C0.582383 1.5176 0.392506 1.44391 0.233803 1.29654C0.0779344 1.14634 0 0.967803 0 0.760923C0 0.551209 0.0779344 0.372668 0.233803 0.225301C0.392506 0.0751003 0.582383 0 0.803433 0C1.02448 0 1.21294 0.0751003 1.36881 0.225301C1.52751 0.372668 1.60687 0.551209 1.60687 0.760923C1.60687 0.967803 1.52751 1.14634 1.36881 1.29654C1.21294 1.44391 1.02448 1.5176 0.803433 1.5176Z"
+                fill="#D84E28"
+            />
+        </svg>
+    )
+}
+
 interface SelectFieldProps {
     label: string
     placeholder?: string
     value?: ReactNode
-    isOpen?: boolean
-    isActive?: boolean
+    options?: SelectOption[]
+    onChange?: (value: string) => void
     isDisabled?: boolean
     isLoading?: boolean
     error?: string
+    validationError?: string
     loadingText?: string
-    onClick?: () => void
-    children?: ReactNode
+    filterTabs?: FilterTab[]
+    showSearch?: boolean
+    showFilter?: boolean
+    showInfoIcon?: boolean
+    searchPlaceholder?: string
 }
 
 export function SelectField({
                                 label,
                                 placeholder = 'Select...',
                                 value,
-                                isOpen,
+                                options = [],
+                                onChange,
                                 isDisabled,
                                 isLoading,
                                 error,
+                                validationError,
                                 loadingText = 'Loading...',
-                                onClick,
-                                children,
+                                filterTabs,
+                                showSearch = true,
+                                showFilter = true,
+                                showInfoIcon = false,
+                                searchPlaceholder = 'Search',
                             }: SelectFieldProps) {
+    const [isOpen, setIsOpen] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
+
     const hasError = !!error && !isLoading
+    const hasValidationError = !!validationError && !hasError
     const showPlaceholder = !value && !isLoading && !hasError
 
-    // Shared trigger content - vertically centered
+    useEffect(() => {
+        if (!isOpen) return
+
+        const handleClickOutside = (event: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isOpen])
+
+    const handleToggle = useCallback(() => {
+        if (!isDisabled && !isLoading) {
+            setIsOpen((prev) => !prev)
+        }
+    }, [isDisabled, isLoading])
+
+    const handleSelect = useCallback(
+        (option: SelectOption) => {
+            onChange?.(option.id)
+            setIsOpen(false)
+        },
+        [onChange]
+    )
+
     const triggerContent = (
         <div className="w-full h-[50px] flex justify-start items-center gap-[80px]">
-            {/* Label */}
             <div className="w-[95px] shrink-0">
-        <span
-            className="text-[#191925] text-[20px] font-semibold leading-[21px]"
-
-        >
-          {label}
-        </span>
+                <span className="text-[#191925] text-[20px] font-semibold leading-[21px]">
+                    {label}
+                </span>
             </div>
 
-            {/* Content and Chevron */}
             <div className="flex-1 flex justify-between items-center">
-                {/* Content */}
                 <div>
                     {isLoading && !isDisabled ? (
                         <div className="flex items-center gap-[8px]">
-              <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
-                {loadingText}
-              </span>
+                            <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                                {loadingText}
+                            </span>
                         </div>
                     ) : hasError ? (
                         <div className="flex items-center gap-[8px]">
-              <span className="text-[#D84E28] text-[16px] font-medium leading-[19.2px]">
-                {error}
-              </span>
+                            <span className="text-[#D84E28] text-[16px] font-medium leading-[19.2px]">
+                                {error}
+                            </span>
                         </div>
                     ) : showPlaceholder ? (
                         <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
-              {placeholder}
-            </span>
+                            {placeholder}
+                        </span>
                     ) : (
-                        <div className="text-[#191925] text-[16px] font-medium leading-[19.2px]">{value}</div>
+                        <div className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
+                            {value}
+                        </div>
                     )}
                 </div>
 
-                {/* Right side icon - Loading, Error, or Chevron */}
                 <div className="flex items-center">
                     {isLoading && !isDisabled ? (
                         <LoadingIcon />
@@ -199,29 +253,35 @@ export function SelectField({
     )
 
     return (
-        <div className="relative" style={{ zIndex: isOpen ? 50 : 'auto' }}>
-            {/* This div maintains the height in document flow */}
-            <div className="h-[80px]">
+        <div ref={containerRef} className="relative" style={{ zIndex: isOpen ? 50 : 'auto' }}>
+            <div className={cn('min-h-[80px]', hasValidationError && !isOpen && 'min-h-[100px]')}>
                 {/* Closed state */}
                 {!isOpen && (
-                    <button
-                        type="button"
-                        disabled={isDisabled}
-                        onClick={onClick}
-                        className={cn(
-                            // Base layout - centered content
-                            'w-full h-[80px] px-[25px] py-[15px] flex flex-col justify-center items-start',
-                            'rounded-[12px] text-left',
-                            // Rest state
-                            'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
-                            // Hover state (only when not disabled)
-                            !isDisabled && 'cursor-pointer hover:bg-white',
-                            // Error state
-                            hasError && 'border-[#D84E28]'
+                    <div className="flex flex-col">
+                        <button
+                            type="button"
+                            disabled={isDisabled}
+                            onClick={handleToggle}
+                            className={cn(
+                                'w-full h-[80px] px-[25px] py-[15px] flex flex-col justify-center items-start',
+                                'rounded-[12px] text-left',
+                                'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
+                                !isDisabled && 'cursor-pointer hover:bg-white',
+                                (hasError || hasValidationError) && 'border-[#D84E28]'
+                            )}
+                        >
+                            {triggerContent}
+                        </button>
+
+                        {hasValidationError && (
+                            <div className="flex items-center gap-[4px] mt-[8px] pl-[175px]">
+                                <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                    {validationError}
+                                </span>
+                                <ErrorInfoIcon />
+                            </div>
                         )}
-                    >
-                        {triggerContent}
-                    </button>
+                    </div>
                 )}
 
                 {/* Open state */}
@@ -231,31 +291,38 @@ export function SelectField({
                             'absolute left-0 right-0 top-0 w-full',
                             'px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
                             'rounded-[12px]',
-                            // Active/Open state
                             'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
                             'shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
                         )}
                     >
-                        {/* Trigger area */}
                         <button
                             type="button"
                             disabled={isDisabled}
-                            onClick={onClick}
+                            onClick={handleToggle}
                             className="w-full text-left cursor-pointer"
                         >
                             {triggerContent}
                         </button>
 
-                        {/* Dropdown Content - only show if not loading */}
                         {isLoading ? (
                             <div className="w-full flex items-center justify-center py-[20px] gap-[8px]">
-                <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
-                  {loadingText}
-                </span>
+                                <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                                    {loadingText}
+                                </span>
                                 <LoadingIcon />
                             </div>
                         ) : (
-                            <div className="w-full">{children}</div>
+                            <div className="w-full">
+                                <SelectDropdown
+                                    options={options}
+                                    filterTabs={filterTabs}
+                                    onSelect={handleSelect}
+                                    searchPlaceholder={searchPlaceholder}
+                                    showSearch={showSearch}
+                                    showFilter={showFilter}
+                                    showInfoIcon={showInfoIcon}
+                                />
+                            </div>
                         )}
                     </div>
                 )}

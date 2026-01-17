@@ -80,7 +80,7 @@ export function MemoField({
                         className={cn(
                             'flex-1 h-full bg-transparent outline-none',
                             'text-[#191925] text-[16px] font-medium leading-[19.2px]',
-                            'placeholder:text-[#90A0AF]',
+                            'placeholder:text-[#688199]',
                             isDisabled && 'cursor-not-allowed'
                         )}
                     />

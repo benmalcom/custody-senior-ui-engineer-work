@@ -8,7 +8,6 @@ import {
 } from '@/lib/format'
 import { useState, useEffect, useMemo, type ReactNode } from 'react'
 
-// Info icon for Fee (blue)
 function InfoIcon({ className }: { className?: string }) {
     return (
         <svg
@@ -27,7 +26,6 @@ function InfoIcon({ className }: { className?: string }) {
     )
 }
 
-// Info icon for Error (red)
 function ErrorInfoIcon({ className }: { className?: string }) {
     return (
         <svg
@@ -46,7 +44,6 @@ function ErrorInfoIcon({ className }: { className?: string }) {
     )
 }
 
-// Loading spinner matching Figma
 function LoadingIcon({ className }: { className?: string }) {
     return (
         <svg
@@ -130,7 +127,6 @@ interface AmountFieldProps {
     error?: string
     onFocus?: () => void
     onBlur?: () => void
-    // Price in USD for the token
     priceUsd?: number
 }
 
@@ -151,12 +147,11 @@ export function AmountField({
                                 error,
                                 onFocus,
                                 onBlur,
-                                priceUsd = 0.037624, // Default price for demo
+                                priceUsd = 0.037624,
                             }: AmountFieldProps) {
     const [displayValue, setDisplayValue] = useState(value)
     const [isFocused, setIsFocused] = useState(false)
 
-    // Check if there's a valid non-zero value
     const hasValue = value && parseFloat(value) > 0
 
     useEffect(() => {
@@ -170,7 +165,7 @@ export function AmountField({
     }, [value, isFocused, hasValue])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const raw = e.target.value.replace(/,/g, '') // Remove commas for parsing
+        const raw = e.target.value.replace(/,/g, '')
         if (!/^[\d.]*$/.test(raw)) return
 
         setDisplayValue(e.target.value)
@@ -179,7 +174,6 @@ export function AmountField({
 
     const handleFocus = () => {
         setIsFocused(true)
-        // Show raw value without formatting when focused
         if (value) {
             setDisplayValue(value)
         }
@@ -202,27 +196,22 @@ export function AmountField({
         const feeBigInt = BigInt(fee)
         const maxAmount = balanceBigInt > feeBigInt ? balanceBigInt - feeBigInt : 0n
         const formatted = formatBalance(maxAmount.toString(), decimals)
-        onChange(formatted.replace(/,/g, '')) // Store without commas
+        onChange(formatted.replace(/,/g, ''))
         setDisplayValue(formatted)
     }
 
     const formattedBalance = balance ? formatBalance(balance, decimals) : undefined
     const formattedFee = fee ? formatBalance(fee, decimals) : undefined
 
-    // Calculate USD value for balance
     const balanceUsd = useMemo(() => {
         if (!formattedBalance || !priceUsd) return undefined
         const balanceNum = parseFloat(formattedBalance.replace(/,/g, '')) || 0
         return balanceNum * priceUsd
     }, [formattedBalance, priceUsd])
 
-    // Determine what to show for Available
     const showBalanceLoading = isLoadingBalance && !isDisabled
     const showBalanceError = !isLoadingBalance && balanceError
-    const showBalancePlaceholder =
-        !isLoadingBalance && !balanceError && !formattedBalance
 
-    // Determine what to show for Fee
     const showFeeLoading = isLoadingFee && !isDisabled
     const showFeeError = !isLoadingFee && feeError
     const showFeePlaceholder = !isLoadingFee && !feeError && !formattedFee
@@ -230,14 +219,10 @@ export function AmountField({
     return (
         <div
             className={cn(
-                // Base layout
                 'px-[25px] py-[15px] flex flex-col items-start gap-[10px] self-stretch',
                 'rounded-[12px] transition-colors duration-200',
-                // Rest state
                 'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
-                // Hover state (only when not disabled)
                 !isDisabled && 'hover:bg-white',
-                // Active/focused state
                 (isActive || isFocused) &&
                 'bg-[rgba(255,255,255,0.40)] shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
             )}
@@ -246,68 +231,87 @@ export function AmountField({
             <div className="w-full flex items-center gap-[80px]">
                 {/* Label */}
                 <div className="w-[95px] shrink-0">
-          <span
-              className="text-[#191925] text-[20px] font-semibold leading-[21px]"
-          >
-            Amount
-          </span>
+                    <span className="text-[#191925] text-[20px] font-semibold leading-[21px]">
+                        Amount
+                    </span>
                 </div>
 
                 {/* Input and MAX button container */}
-                <div className="flex-1 flex items-center gap-[10px]">
-                    {/* Input */}
-                    <div className="flex-1 h-[40px] pr-[10px] flex justify-between items-center rounded-[9px] border border-[rgba(104,129,153,0.30)]">
-                        <input
-                            type="text"
-                            value={displayValue}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
-                            placeholder="0.00"
-                            disabled={isDisabled}
+                <div className="flex-1 flex flex-col gap-[8px]">
+                    <div className="flex items-center gap-[10px]">
+                        {/* Input */}
+                        <div
                             className={cn(
-                                'flex-1 h-full px-[10px] bg-transparent outline-none',
-                                'text-[#191925] text-[16px] font-medium leading-[19.2px]',
-                                'placeholder:text-[#90A0AF]',
-                                isDisabled && 'cursor-not-allowed'
+                                'flex-1 h-[40px] pr-[10px] flex justify-between items-center rounded-[9px] border',
+                                error
+                                    ? 'border-[#D84E28]'
+                                    : 'border-[rgba(104,129,153,0.30)]'
                             )}
-                        />
-
-                        {/* Token Badge */}
-                        {symbol && (
-                            <div className="flex items-center gap-[6px]">
-                                {icon && (
-                                    <div
-                                        className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0"
-                                        style={{
-                                            background:
-                                                'linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(0deg, #191925 0%, #191925 100%)',
-                                            backgroundBlendMode: 'normal, color-burn, normal',
-                                        }}
-                                    >
-                                        <div className="w-full h-full">{icon}</div>
-                                    </div>
+                        >
+                            <input
+                                type="text"
+                                value={displayValue}
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                                placeholder="0.00"
+                                disabled={isDisabled}
+                                className={cn(
+                                    'flex-1 h-full px-[10px] bg-transparent outline-none',
+                                    'text-[#191925] text-[16px] font-medium leading-[19.2px]',
+                                    'placeholder:text-[#688199]',
+                                    isDisabled && 'cursor-not-allowed'
                                 )}
-                                <span className="text-[#191925] text-[12px] font-semibold">{symbol}</span>
-                            </div>
-                        )}
+                            />
+
+                            {/* Token Badge */}
+                            {symbol && (
+                                <div className="flex items-center gap-[6px]">
+                                    {icon && (
+                                        <div
+                                            className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0"
+                                            style={{
+                                                background:
+                                                    'linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(0deg, #191925 0%, #191925 100%)',
+                                                backgroundBlendMode: 'normal, color-burn, normal',
+                                            }}
+                                        >
+                                            <div className="w-full h-full">{icon}</div>
+                                        </div>
+                                    )}
+                                    <span className="text-[#191925] text-[12px] font-semibold">
+                                        {symbol}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* MAX Button */}
+                        <button
+                            type="button"
+                            onClick={handleMax}
+                            disabled={isDisabled || !balance || !fee}
+                            className={cn(
+                                'h-[40px] px-[20px] py-[12px] flex justify-center items-center',
+                                'rounded-[9px] bg-[rgba(104,129,153,0.30)] backdrop-blur-[7.5px]',
+                                'text-[#191925] text-[14px] font-semibold',
+                                'cursor-pointer transition-colors hover:bg-[rgba(104,129,153,0.40)]',
+                                'disabled:opacity-50 disabled:cursor-not-allowed'
+                            )}
+                        >
+                            MAX
+                        </button>
                     </div>
 
-                    {/* MAX Button */}
-                    <button
-                        type="button"
-                        onClick={handleMax}
-                        disabled={isDisabled || !balance || !fee}
-                        className={cn(
-                            'h-[40px] px-[20px] py-[12px] flex justify-center items-center',
-                            'rounded-[9px] bg-[rgba(104,129,153,0.30)] backdrop-blur-[7.5px]',
-                            'text-[#191925] text-[14px] font-semibold',
-                            'cursor-pointer transition-colors hover:bg-[rgba(104,129,153,0.40)]',
-                            'disabled:opacity-50 disabled:cursor-not-allowed'
-                        )}
-                    >
-                        MAX
-                    </button>
+                    {/* Error Row - directly under input */}
+                    {error && (
+                        <div className="flex items-center gap-[4px]">
+                            <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                {error}
+                            </span>
+                            <ErrorInfoIcon />
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -316,49 +320,38 @@ export function AmountField({
                 <div className="w-[95px] shrink-0" />
                 <div className="flex-1 flex items-center justify-between">
                     <div className="flex items-center gap-[4px]">
-            <span className="text-[#90A0AF] text-[12px] font-medium leading-normal tracking-[0.36px]">
-              Available
-            </span>
-                        {showBalanceLoading ? (
+                        <span className="text-[#90A0AF] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                            Available
+                        </span>
+                        {showBalanceLoading || showFeeLoading ? (
                             <LoadingIcon />
                         ) : showBalanceError ? (
                             <>
-                <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
-                  {balanceError}
-                </span>
+                                <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                    {balanceError}
+                                </span>
                                 <ErrorInfoIcon />
                             </>
-                        ) : showBalancePlaceholder ? (
-                            <span className="text-[#90A0AF] text-[12px] font-medium leading-normal tracking-[0.36px]">
-                -- {symbol}
-              </span>
+                        ) : !formattedBalance || !formattedFee ? (
+                            <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                -- {symbol}
+                            </span>
                         ) : (
-                            <span className="text-[#90A0AF] text-[12px] font-medium leading-normal tracking-[0.36px]">
-                $ {formatUsd(balanceUsd || 0)} ≈ {formatTokenAmount(formattedBalance || '0')}{' '}
-                                {symbol}
-              </span>
+                            <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                $ {formatUsd(balanceUsd || 0)} ≈{' '}
+                                {formatTokenAmount(formattedBalance || '0')} {symbol}
+                            </span>
                         )}
                     </div>
                 </div>
             </div>
 
-            {/* Error Row */}
-            {error && (
-                <div className="w-full flex items-center gap-[80px]">
-                    <div className="w-[95px] shrink-0" />
-                    <div className="flex items-center gap-[4px]">
-            <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
-              {error}
-            </span>
-                        <ErrorInfoIcon />
-                    </div>
-                </div>
-            )}
-
             {/* Fee Row */}
             <div className="w-full flex items-center gap-[80px] pt-[10px] border-t border-[rgba(104,129,153,0.15)]">
                 <div className="w-[95px] shrink-0 flex items-center gap-[6px]">
-                    <span className="text-[#191925] text-[16px] font-semibold leading-[19.2px]">Fee</span>
+                    <span className="text-[#191925] text-[16px] font-semibold leading-[19.2px]">
+                        Fee
+                    </span>
                     <InfoIcon />
                 </div>
 
@@ -367,17 +360,19 @@ export function AmountField({
                         <LoadingIcon />
                     ) : showFeeError ? (
                         <div className="flex items-center gap-[4px]">
-              <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
-                {feeError}
-              </span>
+                            <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                {feeError}
+                            </span>
                             <ErrorInfoIcon />
                         </div>
                     ) : showFeePlaceholder ? (
-                        <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">--</span>
+                        <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                            --
+                        </span>
                     ) : (
                         <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
-              {formattedFee} {symbol}
-            </span>
+                            {formattedFee} {symbol}
+                        </span>
                     )}
                 </div>
             </div>
