@@ -2,6 +2,7 @@ import type { SelectOption } from './SelectField'
 import type { Asset } from '@/api/assets'
 import type { Vault } from '@/api/vaults'
 import { User, Vault as VaultIcon } from 'lucide-react'
+import { FILTER_TABS } from '@/constants/form'
 
 interface Address {
     address: string
@@ -17,7 +18,7 @@ export function buildFromOptions(vaults: Vault[] | undefined): SelectOption[] {
     return vaults.map((vault) => ({
         id: vault.id,
         label: vault.name,
-        filterIds: ['vaults'],
+        filterIds: [FILTER_TABS.VAULTS],
     }))
 }
 
@@ -62,9 +63,9 @@ export function buildToOptions(
         })
         .map((addr) => {
             const filterIds: string[] = []
-            if (addr.isVault) filterIds.push('vaults')
-            if (!addr.isExternal && !addr.isVault) filterIds.push('internal')
-            if (addr.isExternal) filterIds.push('external')
+            if (addr.isVault) filterIds.push(FILTER_TABS.VAULTS)
+            if (!addr.isExternal && !addr.isVault) filterIds.push(FILTER_TABS.INTERNAL)
+            if (addr.isExternal) filterIds.push(FILTER_TABS.EXTERNAL)
 
             // Vaults don't show sublabel, wallets show network name
             const sublabel = addr.isVault ? undefined : getNetworkName(selectedAsset?.networkId || '')
@@ -95,8 +96,8 @@ export function buildToFilterTabs(allAddresses: Address[], selectedVaultId: stri
     const externalCount = filteredAddresses.filter((a) => a.isExternal).length
 
     return [
-        { id: 'vaults', label: 'Vaults', count: vaultCount },
-        { id: 'internal', label: 'Internal Whitelist', count: internalCount },
-        { id: 'external', label: 'External Whitelist', count: externalCount },
+        { id: FILTER_TABS.VAULTS, label: 'Vaults', count: vaultCount },
+        { id: FILTER_TABS.INTERNAL, label: 'Internal Whitelist', count: internalCount },
+        { id: FILTER_TABS.EXTERNAL, label: 'External Whitelist', count: externalCount },
     ]
 }

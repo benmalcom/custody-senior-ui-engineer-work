@@ -12,10 +12,7 @@ import { transferFormSchema, defaultTransferFormValues } from './schemas'
 import { submitTransfer } from '@/api'
 import type { SelectOption } from './SelectField'
 import { buildFromOptions, buildAssetOptions, buildToOptions, buildToFilterTabs } from './transferFormOptions'
-
-type FormStep = 'from' | 'asset' | 'amount' | 'to' | 'memo' | null
-
-const STEPS: FormStep[] = ['from', 'asset', 'amount', 'to', 'memo']
+import { FORM_STEPS, type FormStep } from '@/constants/form'
 
 export function useTransferForm() {
     const [activeStep, setActiveStep] = useState<FormStep>('from')
@@ -207,7 +204,7 @@ export function useTransferForm() {
         [allAddresses, selectedVaultId]
     )
 
-    const activeStepIndex = activeStep ? STEPS.indexOf(activeStep) : -1
+    const activeStepIndex = activeStep ? FORM_STEPS.indexOf(activeStep) : -1
 
     return {
         // State
@@ -264,6 +261,6 @@ export function useTransferForm() {
         handleNewRequest,
 
         // Constants
-        STEPS,
+        STEPS: FORM_STEPS,
     }
 }
