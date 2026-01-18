@@ -1,5 +1,5 @@
 import { Vault } from 'lucide-react'
-import { cn } from '@/components/utils'
+import { cn } from '@/lib/utils'
 
 interface VaultIconWrapperProps {
     className?: string

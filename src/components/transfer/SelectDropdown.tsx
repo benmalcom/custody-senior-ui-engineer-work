@@ -1,4 +1,4 @@
-import { cn } from '@/components/utils'
+import { cn } from '@/lib/utils'
 import { Search } from 'lucide-react'
 import { useState, useMemo, type ReactNode, type MouseEvent } from 'react'
 import { FilterIcon, InfoIcon } from '@/components/icons'

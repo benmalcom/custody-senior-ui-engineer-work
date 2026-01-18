@@ -1,5 +1,5 @@
 import { User } from 'lucide-react'
-import { cn } from '@/components/utils'
+import { cn } from '@/lib/utils'
 
 interface UserIconWrapperProps {
     className?: string

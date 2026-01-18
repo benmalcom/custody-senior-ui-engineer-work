@@ -1,4 +1,4 @@
-import { cn } from '@/components/utils'
+import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { SelectDropdown, type SelectOption, type FilterTab } from './SelectDropdown'

@@ -5,8 +5,8 @@ import { AmountField } from './AmountField'
 import { MemoField } from './MemoField'
 import { SuccessScreen } from './SuccessScreen'
 import { ResetDialog } from './ResetDialog'
-import { useTransferForm } from './useTransferForm'
-import { transferFormSchema } from './schemas'
+import { useTransferForm } from '@/hooks/transfer/useTransferForm'
+import { transferFormSchema } from '@/schemas/transfer'
 import { VaultIconWrapper, UserIconWrapper } from '@/components/icons'
 
 export function TransferForm() {

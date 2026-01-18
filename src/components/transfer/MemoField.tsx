@@ -1,4 +1,4 @@
-import { cn } from '@/components/utils'
+import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 interface MemoFieldProps {

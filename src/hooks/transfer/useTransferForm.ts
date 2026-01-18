@@ -8,10 +8,10 @@ import {
     useAddresses,
     useNetworks,
 } from '@/lib/queries'
-import { transferFormSchema, defaultTransferFormValues } from './schemas'
+import { transferFormSchema, defaultTransferFormValues } from '@/schemas/transfer'
 import { submitTransfer } from '@/api'
-import type { SelectOption } from './SelectField'
-import { buildFromOptions, buildAssetOptions, buildToOptions, buildToFilterTabs } from './transferFormOptions'
+import type { SelectOption } from '@/components/transfer/SelectField'
+import { buildFromOptions, buildAssetOptions, buildToOptions, buildToFilterTabs } from '@/lib/transfer/options'
 import { FORM_STEPS, type FormStep } from '@/constants/form'
 
 export function useTransferForm() {
