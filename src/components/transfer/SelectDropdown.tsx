@@ -74,17 +74,17 @@ export function SelectDropdown({
                 <div className="flex justify-start items-center gap-[10px] ml-[175px]">
                     {/* Search Input */}
                     <div
-                        className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-[rgba(104,129,153,0.30)]"
+                        className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-blue-5-transparency-30"
                         onClick={stopPropagation}
                     >
-                        <Search className="w-[21px] h-[21px] text-[#191925]" strokeWidth={1.5} />
+                        <Search className="w-[21px] h-[21px] text-blue-1" strokeWidth={1.5} />
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onClick={stopPropagation}
                             placeholder={searchPlaceholder}
-                            className="flex-1 bg-transparent text-[#191925] text-[16px] font-medium leading-[19.2px] outline-none placeholder:text-[#90a0af]"
+                            className="flex-1 bg-transparent text-blue-1 text-[16px] font-medium leading-[19.2px] outline-none placeholder:text-gray-1"
                         />
                     </div>
 
@@ -99,11 +99,11 @@ export function SelectDropdown({
                             className={cn(
                                 "h-[40px] px-[15px] py-[12px] flex justify-center items-center gap-[10px] rounded-[9px] backdrop-blur-[7.5px] cursor-pointer transition-colors",
                                 isFilterOpen
-                                    ? "bg-[rgba(104,129,153,0.30)] hover:bg-[rgba(104,129,153,0.40)]"
-                                    : "bg-[rgba(104,129,153,0.15)] hover:bg-[rgba(104,129,153,0.25)]"
+                                    ? "bg-blue-5-transparency-30 hover:bg-blue-5/40"
+                                    : "bg-blue-5-transparency-15 hover:bg-blue-5/25"
                             )}
                         >
-              <span className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
+              <span className="text-blue-1 text-[16px] font-medium leading-[19.2px]">
                 Filter
               </span>
                             <FilterIcon className="w-4 h-4" />
@@ -114,7 +114,7 @@ export function SelectDropdown({
 
             {/* Filter Tabs */}
             {filterTabs && filterTabs.length > 0 && isFilterOpen && (
-                <div className="flex h-[40px] p-[5px] justify-between items-center rounded-[12px] border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)] backdrop-blur-[20px] ml-[175px]">
+                <div className="flex h-[40px] p-[5px] justify-between items-center rounded-[12px] border border-blue-5-transparency-15 bg-white-transparency-40 backdrop-blur-[20px] ml-[175px]">
                     <div className="h-[36px] flex justify-start items-center">
                         {/* All tab */}
                         <button
@@ -126,7 +126,7 @@ export function SelectDropdown({
                             className={cn(
                                 'h-[30px] px-[10px] py-[7px] rounded-[9px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
                                 activeFilter === 'all'
-                                    ? 'bg-[#CBDBEB]'
+                                    ? 'bg-blue-highlight-4'
                                     : ''
                             )}
                         >
@@ -134,14 +134,14 @@ export function SelectDropdown({
                                 className={cn(
                                     'text-[16px] leading-[120%]',
                                     activeFilter === 'all'
-                                        ? 'text-[#05284B] font-semibold'
-                                        : 'text-[#688199] font-medium'
+                                        ? 'text-blue-2 font-semibold'
+                                        : 'text-blue-5 font-medium'
                                 )}
                                 style={{ fontFeatureSettings: "'liga' off, 'clig' off" }}
                             >
                                 All
                             </span>
-                            <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-[#90A0AF] overflow-hidden">
+                            <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-gray-1 overflow-hidden">
                                 <div className="-rotate-90 text-center flex flex-col justify-end text-white text-[12px] font-medium tracking-[0.36px]">
                                     {options.length}
                                 </div>
@@ -159,7 +159,7 @@ export function SelectDropdown({
                                 className={cn(
                                     'h-[30px] px-[10px] py-[7px] rounded-[9px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
                                     activeFilter === tab.id
-                                        ? 'bg-[#CBDBEB]'
+                                        ? 'bg-blue-highlight-4'
                                         : ''
                                 )}
                             >
@@ -167,14 +167,14 @@ export function SelectDropdown({
                                     className={cn(
                                         'text-[16px] leading-[120%]',
                                         activeFilter === tab.id
-                                            ? 'text-[#05284B] font-semibold'
-                                            : 'text-[#688199] font-medium'
+                                            ? 'text-blue-2 font-semibold'
+                                            : 'text-blue-5 font-medium'
                                     )}
                                     style={{ fontFeatureSettings: "'liga' off, 'clig' off" }}
                                 >
                                     {tab.label}
                                 </span>
-                                <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-[#90A0AF] overflow-hidden">
+                                <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-gray-1 overflow-hidden">
                                     <div className="-rotate-90 text-center flex flex-col justify-end text-white text-[12px] font-medium tracking-[0.36px]">
                                         {tab.count}
                                     </div>
@@ -200,7 +200,7 @@ export function SelectDropdown({
             <div className="flex flex-col gap-[5px] max-h-[250px] overflow-y-auto ml-[175px]">
                 {filteredOptions.length === 0 ? (
                     <div className="w-full h-[55px] p-[10px] flex justify-center items-center">
-            <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+            <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
               No results found
             </span>
                     </div>
@@ -215,10 +215,10 @@ export function SelectDropdown({
                             }}
                             className={cn(
                                 'w-full h-[55px] p-[10px] flex justify-between items-center',
-                                'rounded-[9px] bg-[rgba(255,255,255,0.40)]',
+                                'rounded-[9px] bg-white-transparency-40',
                                 'cursor-pointer transition-colors duration-200',
                                 'border border-transparent',
-                                'hover:bg-white hover:border-[rgba(104,129,153,0.15)]'
+                                'hover:bg-white hover:border-blue-5-transparency-15'
                             )}
                         >
                             {/* Left side - Icon and Labels */}
@@ -229,11 +229,11 @@ export function SelectDropdown({
                                     </div>
                                 )}
                                 <div className="flex flex-col justify-start items-start">
-                  <span className="text-[#191925] text-[16px] font-semibold leading-[19.2px]">
+                  <span className="text-blue-1 text-[16px] font-semibold leading-[19.2px]">
                     {option.label}
                   </span>
                                     {option.sublabel && (
-                                        <span className="text-[#688199] text-[14px] font-medium leading-[16.8px]">
+                                        <span className="text-blue-5 text-[14px] font-medium leading-[16.8px]">
                       {option.sublabel}
                     </span>
                                     )}
@@ -244,17 +244,17 @@ export function SelectDropdown({
                             <div className="flex flex-col justify-center items-end">
                                 {option.balance ? (
                                     <>
-                    <span className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
+                    <span className="text-blue-1 text-[16px] font-medium leading-[19.2px]">
                       {option.balance}
                     </span>
                                         {option.balanceUsd && (
-                                            <span className="text-[#688199] text-[14px] font-medium leading-[16.8px]">
+                                            <span className="text-blue-5 text-[14px] font-medium leading-[16.8px]">
                         {option.balanceUsd}
                       </span>
                                         )}
                                     </>
                                 ) : option.address ? (
-                                    <span className="text-[#688199] text-[14px] font-medium leading-[16.8px]">
+                                    <span className="text-blue-5 text-[14px] font-medium leading-[16.8px]">
                     {truncateAddress(option.address)}
                   </span>
                                 ) : null}

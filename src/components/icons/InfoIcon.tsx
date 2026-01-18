@@ -5,7 +5,7 @@ export function InfoIcon({ className }: { className?: string}) {
         <div
             className={cn(
                 'h-[15px] w-[15px] rounded-[7.18px] flex items-center justify-center',
-                'border border-[rgba(104,129,153,0.2)]',
+                'border border-blue-5/20',
                 className
             )}
         >
@@ -18,7 +18,7 @@ export function InfoIcon({ className }: { className?: string}) {
             >
                 <path
                     d="M0.161537 9.05456V2.52507H1.43258V9.05456H0.161537ZM0.803433 1.5176C0.582383 1.5176 0.392506 1.44391 0.233803 1.29654C0.0779344 1.14634 0 0.967803 0 0.760923C0 0.551209 0.0779344 0.372668 0.233803 0.225301C0.392506 0.0751003 0.582383 0 0.803433 0C1.02448 0 1.21294 0.0751003 1.36881 0.225301C1.52751 0.372668 1.60687 0.551209 1.60687 0.760923C1.60687 0.967803 1.52751 1.14634 1.36881 1.29654C1.21294 1.44391 1.02448 1.5176 0.803433 1.5176Z"
-                    fill="#688199"
+                    className="fill-blue-5"
                 />
             </svg>
         </div>

@@ -129,17 +129,17 @@ export function AmountField({
             className={cn(
                 'px-[25px] py-[15px] flex flex-col items-start gap-[10px] self-stretch',
                 'rounded-[12px] transition-colors duration-200',
-                'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
+                'border border-blue-5-transparency-15 bg-white-transparency-40',
                 !isDisabled && 'hover:bg-white',
                 isFocused &&
-                'bg-[rgba(255,255,255,0.40)] shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
+                'bg-white-transparency-40 shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
             )}
         >
             {/* Amount Row */}
             <div className="w-full flex items-center gap-[80px]">
                 {/* Label */}
                 <div className="w-[95px] shrink-0">
-                    <span className="text-[#191925] text-[20px] font-semibold leading-[21px]">
+                    <span className="text-blue-1 text-[20px] font-semibold leading-[21px]">
                         Amount
                     </span>
                 </div>
@@ -152,8 +152,8 @@ export function AmountField({
                             className={cn(
                                 'flex-1 h-[40px] pr-[10px] flex justify-between items-center rounded-[9px] border',
                                 error
-                                    ? 'border-[#D84E28]'
-                                    : 'border-[rgba(104,129,153,0.30)]'
+                                    ? 'border-red-highlight-1'
+                                    : 'border-blue-5-transparency-30'
                             )}
                         >
                             <input
@@ -166,8 +166,8 @@ export function AmountField({
                                 disabled={isDisabled}
                                 className={cn(
                                     'flex-1 h-full px-[10px] bg-transparent outline-none',
-                                    'text-[#191925] text-[16px] font-medium leading-[19.2px]',
-                                    'placeholder:text-[#688199]',
+                                    'text-blue-1 text-[16px] font-medium leading-[19.2px]',
+                                    'placeholder:text-blue-5',
                                     isDisabled && 'cursor-not-allowed'
                                 )}
                             />
@@ -187,7 +187,7 @@ export function AmountField({
                                             <div className="w-full h-full">{icon}</div>
                                         </div>
                                     )}
-                                    <span className="text-[#191925] text-[12px] font-semibold">
+                                    <span className="text-blue-1 text-[12px] font-semibold">
                                         {symbol}
                                     </span>
                                 </div>
@@ -201,9 +201,9 @@ export function AmountField({
                             disabled={isDisabled || !balance || !fee}
                             className={cn(
                                 'h-[40px] px-[20px] py-[12px] flex justify-center items-center',
-                                'rounded-[9px] bg-[rgba(104,129,153,0.30)] backdrop-blur-[7.5px]',
-                                'text-[#191925] text-[14px] font-semibold',
-                                'cursor-pointer transition-colors hover:bg-[rgba(104,129,153,0.40)]',
+                                'rounded-[9px] bg-blue-5-transparency-30 backdrop-blur-[7.5px]',
+                                'text-blue-1 text-[14px] font-semibold',
+                                'cursor-pointer transition-colors hover:bg-blue-5/40',
                                 'disabled:opacity-50 disabled:cursor-not-allowed'
                             )}
                         >
@@ -214,7 +214,7 @@ export function AmountField({
                     {/* Error Row - directly under input */}
                     {error && (
                         <div className="flex items-center gap-[4px]">
-                            <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                            <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 {error}
                             </span>
                         </div>
@@ -227,24 +227,24 @@ export function AmountField({
                 <div className="w-[95px] shrink-0" />
                 <div className="flex-1 flex items-center justify-between">
                     <div className="flex items-center gap-[4px]">
-                        <span className="text-[#90A0AF] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                        <span className="text-gray-1 text-[12px] font-medium leading-normal tracking-[0.36px]">
                             Available
                         </span>
                         {showBalanceLoading || showFeeLoading ? (
                             <LoadingIcon />
                         ) : showBalanceError ? (
                             <>
-                                <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                     {balanceError}
                                 </span>
                                 <ErrorInfoIcon />
                             </>
                         ) : !availableBalance ? (
-                            <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                            <span className="text-blue-5 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 -- {symbol}
                             </span>
                         ) : (
-                            <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                            <span className="text-blue-5 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 $ {formatUsd(availableBalanceUsd || 0)} ≈{' '}
                                 {formatTokenAmount(availableBalance || '0')} {symbol}
                             </span>
@@ -254,9 +254,9 @@ export function AmountField({
             </div>
 
             {/* Fee Row */}
-            <div className="w-full flex items-center gap-[80px] pt-[10px] border-t border-[rgba(104,129,153,0.15)]">
+            <div className="w-full flex items-center gap-[80px] pt-[10px] border-t border-blue-5-transparency-15">
                 <div className="w-[95px] shrink-0 flex items-center gap-[6px]">
-                    <span className="text-[#191925] text-[16px] font-semibold leading-[19.2px]">
+                    <span className="text-blue-1 text-[16px] font-semibold leading-[19.2px]">
                         Fee
                     </span>
                     <InfoIcon />
@@ -267,17 +267,17 @@ export function AmountField({
                         <LoadingIcon />
                     ) : showFeeError ? (
                         <div className="flex items-center gap-[4px]">
-                            <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                            <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 {feeError}
                             </span>
                             <ErrorInfoIcon />
                         </div>
                     ) : showFeePlaceholder ? (
-                        <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                        <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
                             --
                         </span>
                     ) : (
-                        <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                        <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
                             {formattedFee} {symbol}
                         </span>
                     )}

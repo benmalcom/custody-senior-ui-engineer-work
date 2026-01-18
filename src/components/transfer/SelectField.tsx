@@ -80,7 +80,7 @@ export function SelectField({
     const triggerContent = (
         <div className="w-full h-[50px] flex justify-start items-center gap-[80px]">
             <div className="w-[95px] shrink-0">
-                <span className="text-[#191925] text-[20px] font-semibold leading-[21px]">
+                <span className="text-blue-1 text-[20px] font-semibold leading-[21px]">
                     {label}
                 </span>
             </div>
@@ -89,22 +89,22 @@ export function SelectField({
                 <div>
                     {isLoading ? (
                         <div className="flex items-center gap-[8px]">
-                            <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                            <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
                                 {loadingText}
                             </span>
                         </div>
                     ) : hasError ? (
                         <div className="flex items-center gap-[8px]">
-                            <span className="text-[#D84E28] text-[16px] font-medium leading-[19.2px]">
+                            <span className="text-red-highlight-1 text-[16px] font-medium leading-[19.2px]">
                                 {error}
                             </span>
                         </div>
                     ) : showPlaceholder ? (
-                        <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                        <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
                             {placeholder}
                         </span>
                     ) : (
-                        <div className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
+                        <div className="text-blue-1 text-[16px] font-medium leading-[19.2px]">
                             {value}
                         </div>
                     )}
@@ -143,9 +143,9 @@ export function SelectField({
                             className={cn(
                                 'w-full h-[80px] px-[25px] py-[15px] flex flex-col justify-center items-start',
                                 'rounded-[12px] text-left',
-                                'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
+                                'border border-blue-5-transparency-15 bg-white-transparency-40',
                                 !isDisabled && 'cursor-pointer hover:bg-white',
-                                (hasError || hasValidationError) && 'border-[#D84E28]'
+                                (hasError || hasValidationError) && 'border-red-highlight-1'
                             )}
                         >
                             {triggerContent}
@@ -153,7 +153,7 @@ export function SelectField({
 
                         {hasValidationError && (
                             <div className="flex items-center gap-[4px] mt-[8px] pl-[200px]">
-                                <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
+                                <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                     {validationError}
                                 </span>
                             </div>
@@ -168,7 +168,7 @@ export function SelectField({
                             'absolute left-0 right-0 top-0 w-full',
                             'px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
                             'rounded-[12px]',
-                            'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
+                            'border border-blue-5-transparency-15 bg-white-transparency-40',
                             'shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
                         )}
                     >
@@ -183,7 +183,7 @@ export function SelectField({
 
                         {isLoading ? (
                             <div className="w-full flex items-center justify-center py-[20px] gap-[8px]">
-                                <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
+                                <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
                                     {loadingText}
                                 </span>
                                 <LoadingIcon />
