@@ -36,10 +36,10 @@ export function MemoField({
         <div
             className={cn(
                 // Base layout
-                'flex min-h-[80px] px-[25px] py-[20px] items-center self-stretch',
+                'flex flex-col sm:flex-row min-h-[80px] px-[16px] sm:px-[25px] py-[20px] sm:items-center self-stretch',
                 'rounded-[12px] transition-all duration-200',
                 // Rest state
-                'gap-[80px] border border-blue-5-transparency-15 bg-white-transparency-40',
+                'gap-[12px] sm:gap-[80px] border border-blue-5-transparency-15 bg-white-transparency-40',
                 // Hover state (only when not disabled and not focused)
                 !isDisabled && !isFocused && 'hover:bg-white',
                 // Focused state
@@ -49,16 +49,16 @@ export function MemoField({
             )}
         >
             {/* Label */}
-            <div className="w-[95px] shrink-0">
+            <div className="w-full sm:w-[95px] shrink-0">
         <span
-            className="text-blue-1 text-[20px] font-semibold leading-[21px]"
+            className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]"
         >
           Memo
         </span>
             </div>
 
             {/* Input Container */}
-            <div className="flex-1 flex flex-col gap-[8px]">
+            <div className="flex-1 w-full flex flex-col gap-[8px]">
                 <div
                     className={cn(
                         'h-[40px] flex justify-between items-center',

@@ -71,7 +71,7 @@ export function SelectDropdown({
         <div className="w-full flex flex-col gap-[15px]" onClick={stopPropagation}>
             {/* Search and Filter Row */}
             {showSearch && (
-                <div className="flex justify-start items-center gap-[10px] ml-[175px]">
+                <div className="flex justify-start items-center gap-[10px] sm:ml-[175px]">
                     {/* Search Input */}
                     <div
                         className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-blue-5-transparency-30"
@@ -114,7 +114,7 @@ export function SelectDropdown({
 
             {/* Filter Tabs */}
             {filterTabs && filterTabs.length > 0 && isFilterOpen && (
-                <div className="flex h-[40px] p-[5px] justify-between items-center rounded-[12px] border border-blue-5-transparency-15 bg-white-transparency-40 backdrop-blur-[20px] ml-[175px]">
+                <div className="flex h-[40px] p-[5px] justify-between items-center rounded-[12px] border border-blue-5-transparency-15 bg-white-transparency-40 backdrop-blur-[20px] sm:ml-[175px]">
                     <div className="h-[36px] flex justify-start items-center">
                         {/* All tab */}
                         <button
@@ -197,7 +197,7 @@ export function SelectDropdown({
             )}
 
             {/* Options List */}
-            <div className="flex flex-col gap-[5px] max-h-[250px] overflow-y-auto ml-[175px]">
+            <div className="flex flex-col gap-[5px] max-h-[250px] overflow-y-auto sm:ml-[175px]">
                 {filteredOptions.length === 0 ? (
                     <div className="w-full h-[55px] p-[10px] flex justify-center items-center">
             <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">

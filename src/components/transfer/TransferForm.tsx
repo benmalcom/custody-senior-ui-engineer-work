@@ -77,29 +77,29 @@ export function TransferForm() {
     }
 
     return (
-        <div className="flex flex-col min-h-[700px] w-fit mx-auto">
-            {/* Title aligned with stepper column */}
+        <div className="flex flex-col min-h-[700px] w-full max-w-[1008px] mx-auto px-4 md:px-6 lg:px-0">
+            {/* Title aligned with stepper column on desktop */}
             <div className="flex gap-[24px] mb-[20px]">
-                <div className="w-[198px]">
+                <div className="w-full lg:w-[198px]">
                     <span
-                        className="text-[#191925] text-[30px] font-semibold leading-[120%]"
+                        className="text-blue-1 text-[24px] md:text-[30px] font-semibold leading-[120%]"
                         style={{ fontFamily: '"Inter Tight"' }}
                     >
                         Transfer
                     </span>
                 </div>
-                <div className="w-[786px]" />
+                <div className="hidden lg:block lg:w-[786px]" />
             </div>
 
             {/* Stepper + Form row */}
-            <div className="flex gap-[24px]">
-                {/* Left Column: Stepper - 198px */}
-                <div className="flex w-[198px]">
+            <div className="flex flex-col lg:flex-row gap-[24px]">
+                {/* Stepper - side on desktop, top on mobile */}
+                <div className="w-full lg:w-[198px] flex-shrink-0 flex justify-center lg:justify-start">
                     <Stepper totalSteps={Object.keys(STEPS).length} activeStep={activeStepIndex} />
                 </div>
 
-                {/* Center Column: Form - 786px */}
-                <div className="w-[786px] relative">
+                {/* Form */}
+                <div className="w-full lg:w-[786px] relative flex-grow">
                     <form
                         onSubmit={(e) => {
                             e.preventDefault()
@@ -322,7 +322,7 @@ export function TransferForm() {
                         </form.Field>
 
                         {/* Actions */}
-                        <div className="mt-[24px] flex items-center justify-end gap-[12px]">
+                        <div className="mt-[24px] flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-[12px]">
                             <Button
                                 type="button"
                                 variant="secondary"

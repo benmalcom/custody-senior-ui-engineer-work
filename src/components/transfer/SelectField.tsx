@@ -78,14 +78,14 @@ export function SelectField({
     )
 
     const triggerContent = (
-        <div className="w-full h-[50px] flex justify-start items-center gap-[80px]">
-            <div className="w-[95px] shrink-0">
-                <span className="text-blue-1 text-[20px] font-semibold leading-[21px]">
+        <div className="w-full min-h-[50px] flex flex-col sm:flex-row justify-start items-start sm:items-center gap-[12px] sm:gap-[80px]">
+            <div className="w-full sm:w-[95px] shrink-0">
+                <span className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]">
                     {label}
                 </span>
             </div>
 
-            <div className="flex-1 flex justify-between items-center">
+            <div className="flex-1 w-full flex justify-between items-center">
                 <div>
                     {isLoading ? (
                         <div className="flex items-center gap-[8px]">
@@ -132,7 +132,7 @@ export function SelectField({
 
     return (
         <div ref={containerRef} className="relative" style={{ zIndex: isOpen ? 50 : 'auto' }}>
-            <div className={cn('min-h-[80px]', hasValidationError && !isOpen && 'min-h-[100px]')}>
+            <div className={cn('min-h-[80px]', hasValidationError && !isOpen && 'min-h-[120px] sm:min-h-[100px]')}>
                 {/* Closed state */}
                 {!isOpen && (
                     <div className="flex flex-col">
@@ -141,7 +141,7 @@ export function SelectField({
                             disabled={isDisabled}
                             onClick={handleToggle}
                             className={cn(
-                                'w-full h-[80px] px-[25px] py-[15px] flex flex-col justify-center items-start',
+                                'w-full min-h-[80px] px-[16px] sm:px-[25px] py-[15px] flex flex-col justify-center items-start',
                                 'rounded-[12px] text-left',
                                 'border border-blue-5-transparency-15 bg-white-transparency-40',
                                 !isDisabled && 'cursor-pointer hover:bg-white',
@@ -152,7 +152,7 @@ export function SelectField({
                         </button>
 
                         {hasValidationError && (
-                            <div className="flex items-center gap-[4px] mt-[8px] pl-[200px]">
+                            <div className="flex items-center gap-[4px] mt-[8px] pl-[16px] sm:pl-[200px]">
                                 <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
                                     {validationError}
                                 </span>
@@ -166,7 +166,7 @@ export function SelectField({
                     <div
                         className={cn(
                             'absolute left-0 right-0 top-0 w-full',
-                            'px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
+                            'px-[16px] sm:px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
                             'rounded-[12px]',
                             'border border-blue-5-transparency-15 bg-white-transparency-40',
                             'shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'

@@ -127,7 +127,7 @@ export function AmountField({
     return (
         <div
             className={cn(
-                'px-[25px] py-[15px] flex flex-col items-start gap-[10px] self-stretch',
+                'px-[16px] sm:px-[25px] py-[15px] flex flex-col items-start gap-[10px] self-stretch',
                 'rounded-[12px] transition-colors duration-200',
                 'border border-blue-5-transparency-15 bg-white-transparency-40',
                 !isDisabled && 'hover:bg-white',
@@ -136,16 +136,16 @@ export function AmountField({
             )}
         >
             {/* Amount Row */}
-            <div className="w-full flex items-center gap-[80px]">
+            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[12px] sm:gap-[80px]">
                 {/* Label */}
-                <div className="w-[95px] shrink-0">
-                    <span className="text-blue-1 text-[20px] font-semibold leading-[21px]">
+                <div className="w-full sm:w-[95px] shrink-0">
+                    <span className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]">
                         Amount
                     </span>
                 </div>
 
                 {/* Input and MAX button container */}
-                <div className="flex-1 flex flex-col gap-[8px]">
+                <div className="flex-1 w-full flex flex-col gap-[8px]">
                     <div className="flex items-center gap-[10px]">
                         {/* Input */}
                         <div
@@ -223,9 +223,9 @@ export function AmountField({
             </div>
 
             {/* Available Balance Row */}
-            <div className="w-full flex items-center gap-[80px]">
-                <div className="w-[95px] shrink-0" />
-                <div className="flex-1 flex items-center justify-between">
+            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[4px] sm:gap-[80px]">
+                <div className="hidden sm:block sm:w-[95px] shrink-0" />
+                <div className="flex-1 w-full flex items-center justify-between">
                     <div className="flex items-center gap-[4px]">
                         <span className="text-gray-1 text-[12px] font-medium leading-normal tracking-[0.36px]">
                             Available
@@ -254,15 +254,15 @@ export function AmountField({
             </div>
 
             {/* Fee Row */}
-            <div className="w-full flex items-center gap-[80px] pt-[10px] border-t border-blue-5-transparency-15">
-                <div className="w-[95px] shrink-0 flex items-center gap-[6px]">
-                    <span className="text-blue-1 text-[16px] font-semibold leading-[19.2px]">
+            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[12px] sm:gap-[80px] pt-[10px] border-t border-blue-5-transparency-15">
+                <div className="w-full sm:w-[95px] shrink-0 flex items-center gap-[6px]">
+                    <span className="text-blue-1 text-[14px] sm:text-[16px] font-semibold leading-[19.2px]">
                         Fee
                     </span>
                     <InfoIcon />
                 </div>
 
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                     {showFeeLoading ? (
                         <LoadingIcon />
                     ) : showFeeError ? (

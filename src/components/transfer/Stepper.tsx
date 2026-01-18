@@ -7,21 +7,25 @@ interface StepperProps {
 
 export function Stepper({ activeStep, totalSteps = 5 }: StepperProps) {
     return (
-        <div className="flex flex-col items-end gap-[9px]">
+        <div className="flex flex-row lg:flex-col items-center lg:items-end gap-[9px]">
             {Array.from({ length: totalSteps }).map((_, index) => (
                 <div
                     key={index}
                     className={cn(
-                        'w-[5px] relative',
-                        index === activeStep ? 'h-[40px]' : 'h-[5px]'
+                        // Horizontal on mobile
+                        'h-[5px] lg:w-[5px] relative',
+                        // Active state: wide on mobile, tall on desktop
+                        index === activeStep
+                            ? 'w-[40px] lg:w-[5px] lg:h-[40px]'
+                            : 'w-[5px] lg:h-[5px]'
                     )}
                 >
                     <div
                         className={cn(
-                            'absolute w-full rounded-[125px]',
+                            'absolute rounded-[125px]',
                             index === activeStep
-                                ? 'h-full top-0 bg-[#3470AB]'
-                                : 'h-[5px] top-1/2 -translate-y-1/2 bg-[rgba(104,129,153,0.3)]'
+                                ? 'w-full h-full top-0 left-0 bg-blue-highlight-dark-1'
+                                : 'w-[5px] h-[5px] lg:w-full lg:h-[5px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:top-1/2 lg:left-0 lg:translate-x-0 bg-blue-5-transparency-30'
                         )}
                     />
                 </div>
