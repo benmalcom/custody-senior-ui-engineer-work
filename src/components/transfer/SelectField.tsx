@@ -10,6 +10,7 @@ interface SelectFieldProps {
     label: string
     placeholder?: string
     value?: ReactNode
+    selectedId?: string
     options?: SelectOption[]
     onChange?: (value: string) => void
     isDisabled?: boolean
@@ -28,6 +29,7 @@ export function SelectField({
                                 label,
                                 placeholder = 'Select...',
                                 value,
+                                selectedId,
                                 options = [],
                                 onChange,
                                 isDisabled,
@@ -194,6 +196,7 @@ export function SelectField({
                                     options={options}
                                     filterTabs={filterTabs}
                                     onSelect={handleSelect}
+                                    selectedId={selectedId}
                                     searchPlaceholder={searchPlaceholder}
                                     showSearch={showSearch}
                                     showFilter={showFilter}

@@ -126,6 +126,7 @@ export function TransferForm() {
                                     error={vaultsError ? 'Error loading vaults' : undefined}
                                     validationError={field.state.meta.errors?.[0]}
                                     loadingText="Loading vaults..."
+                                    selectedId={field.state.value}
                                     value={
                                         selectedVault && (
                                             <span className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
@@ -167,6 +168,7 @@ export function TransferForm() {
                                     error={assetsError ? 'Error loading assets' : undefined}
                                     validationError={field.state.meta.errors?.[0]}
                                     loadingText="Loading assets..."
+                                    selectedId={field.state.value}
                                     value={
                                         selectedAsset && (
                                             <div className="flex items-center gap-[10px]">
@@ -258,6 +260,7 @@ export function TransferForm() {
                                     placeholder="Select destination"
                                     isDisabled={!selectedAssetId}
                                     validationError={field.state.meta.errors?.[0]}
+                                    selectedId={field.state.value}
                                     value={
                                         selectedToAddress && (
                                             <div className="flex items-center gap-[10px]">

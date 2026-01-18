@@ -24,6 +24,7 @@ interface SelectDropdownProps {
     options: SelectOption[]
     filterTabs?: FilterTab[]
     onSelect: (option: SelectOption) => void
+    selectedId?: string
     searchPlaceholder?: string
     showSearch?: boolean
     showFilter?: boolean
@@ -34,6 +35,7 @@ export function SelectDropdown({
                                    options,
                                    filterTabs,
                                    onSelect,
+                                   selectedId,
                                    searchPlaceholder = 'Search',
                                    showSearch = true,
                                    showFilter = true,
@@ -205,22 +207,26 @@ export function SelectDropdown({
             </span>
                     </div>
                 ) : (
-                    filteredOptions.map((option) => (
-                        <button
-                            key={option.id}
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                onSelect(option)
-                            }}
-                            className={cn(
-                                'w-full h-[55px] p-[10px] flex justify-between items-center',
-                                'rounded-[9px] bg-white-transparency-40',
-                                'cursor-pointer transition-colors duration-200',
-                                'border border-transparent',
-                                'hover:bg-white hover:border-blue-5-transparency-15'
-                            )}
-                        >
+                    filteredOptions.map((option) => {
+                        const isSelected = selectedId === option.id
+                        return (
+                            <button
+                                key={option.id}
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onSelect(option)
+                                }}
+                                className={cn(
+                                    'w-full h-[55px] p-[10px] flex justify-between items-center',
+                                    'rounded-[9px]',
+                                    'cursor-pointer transition-colors duration-200',
+                                    'border',
+                                    isSelected
+                                        ? 'bg-white border-blue-5-transparency-15'
+                                        : 'bg-white-transparency-40 border-transparent hover:bg-white hover:border-blue-5-transparency-15'
+                                )}
+                            >
                             {/* Left side - Icon and Labels */}
                             <div className="flex justify-start items-center gap-[10px]">
                                 {option.icon && (
@@ -259,8 +265,9 @@ export function SelectDropdown({
                   </span>
                                 ) : null}
                             </div>
-                        </button>
-                    ))
+                            </button>
+                        )
+                    })
                 )}
             </div>
         </div>
