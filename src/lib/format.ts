@@ -54,32 +54,44 @@ export function removeTrailingZeros(value: string): string {
 }
 
 /**
- * Formats input value with thousand separators
- * "1000" -> "1,000"
- * "1000.50" -> "1,000.50"
+ * Formats input value according to PDF requirements:
+ * - Remove trailing 0s (0.00 -> 0)
+ * - Remove trailing "." (0. -> 0)
+ * - "," separated thousands places (1000 -> 1,000)
+ * - Ensure only 1 leading zero (001 -> 1, 00.1 -> 0.1)
  */
 export function formatInputValue(value: string): string {
     if (!value) return ''
 
     // Remove existing commas
-    const cleanValue = value.replace(/,/g, '')
+    let cleaned = value.replace(/,/g, '')
 
-    // Handle leading zeros (001 -> 1, but 0.1 stays 0.1)
-    let normalized = cleanValue
-    if (normalized.match(/^0+\d/)) {
-        normalized = normalized.replace(/^0+/, '')
+    // Handle leading zeros
+    if (cleaned.includes('.')) {
+        const [intPart, decPart] = cleaned.split('.')
+        // Remove leading zeros but keep one if it's before decimal (00.1 -> 0.1)
+        const cleanedInt = intPart.replace(/^0+/, '') || '0'
+        cleaned = `${cleanedInt}.${decPart}`
+    } else {
+        // Remove all leading zeros (001 -> 1)
+        cleaned = cleaned.replace(/^0+/, '') || '0'
     }
-    if (normalized.startsWith('.')) {
-        normalized = '0' + normalized
+
+    // Remove trailing zeros after decimal point (0.00 -> 0)
+    if (cleaned.includes('.')) {
+        cleaned = cleaned.replace(/0+$/, '')
+        // Remove trailing decimal point (0. -> 0)
+        cleaned = cleaned.replace(/\.$/, '')
     }
 
-    // Split by decimal point
-    const parts = normalized.split('.')
-
-    // Add thousand separators to integer part
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-    return parts.join('.')
+    // Add thousand separators
+    if (cleaned.includes('.')) {
+        const [intPart, decPart] = cleaned.split('.')
+        const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return decPart ? `${formattedInt}.${decPart}` : formattedInt
+    } else {
+        return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
 }
 
 /**

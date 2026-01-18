@@ -1,7 +1,7 @@
 import { cn } from '@/components/utils'
-import { Search, Info } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useState, useMemo, type ReactNode, type MouseEvent } from 'react'
-import { FilterIcon } from '@/components/icons'
+import { FilterIcon, InfoIcon } from '@/components/icons'
 
 export interface FilterTab {
     id: string
@@ -41,6 +41,7 @@ export function SelectDropdown({
                                }: SelectDropdownProps) {
     const [search, setSearch] = useState('')
     const [activeFilter, setActiveFilter] = useState<string>('all')
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
 
     const filteredOptions = useMemo(() => {
         let filtered = options
@@ -70,7 +71,7 @@ export function SelectDropdown({
         <div className="w-full flex flex-col gap-[15px]" onClick={stopPropagation}>
             {/* Search and Filter Row */}
             {showSearch && (
-                <div className="w-full flex justify-start items-center gap-[10px]">
+                <div className="flex justify-start items-center gap-[10px] ml-[175px]">
                     {/* Search Input */}
                     <div
                         className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-[rgba(104,129,153,0.30)]"
@@ -91,8 +92,16 @@ export function SelectDropdown({
                     {showFilter && (
                         <button
                             type="button"
-                            onClick={stopPropagation}
-                            className="h-[40px] px-[15px] py-[12px] flex justify-center items-center gap-[10px] rounded-[9px] bg-[rgba(104,129,153,0.15)] backdrop-blur-[7.5px] cursor-pointer hover:bg-[rgba(104,129,153,0.25)] transition-colors"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setIsFilterOpen(!isFilterOpen)
+                            }}
+                            className={cn(
+                                "h-[40px] px-[15px] py-[12px] flex justify-center items-center gap-[10px] rounded-[9px] backdrop-blur-[7.5px] cursor-pointer transition-colors",
+                                isFilterOpen
+                                    ? "bg-[rgba(104,129,153,0.30)] hover:bg-[rgba(104,129,153,0.40)]"
+                                    : "bg-[rgba(104,129,153,0.15)] hover:bg-[rgba(104,129,153,0.25)]"
+                            )}
                         >
               <span className="text-[#191925] text-[16px] font-medium leading-[19.2px]">
                 Filter
@@ -104,81 +113,91 @@ export function SelectDropdown({
             )}
 
             {/* Filter Tabs */}
-            {filterTabs && filterTabs.length > 0 && (
-                <div className="w-full flex justify-start items-center gap-[5px] flex-wrap">
-                    {/* All tab */}
-                    <button
-                        type="button"
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            setActiveFilter('all')
-                        }}
-                        className={cn(
-                            'h-[32px] px-[10px] rounded-[6px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
-                            activeFilter === 'all'
-                                ? 'bg-[rgba(104,129,153,0.20)]'
-                                : 'hover:bg-[rgba(104,129,153,0.10)]'
-                        )}
-                    >
-                        <span className="text-[#191925] text-[14px] font-medium leading-[16.8px]">All</span>
-                        <span
-                            className={cn(
-                                'px-[6px] py-[2px] rounded-[4px] text-[12px] font-semibold',
-                                activeFilter === 'all'
-                                    ? 'bg-[#191925] text-white'
-                                    : 'bg-[rgba(104,129,153,0.30)] text-[#191925]'
-                            )}
-                        >
-              {options.length}
-            </span>
-                    </button>
-
-                    {filterTabs.map((tab) => (
+            {filterTabs && filterTabs.length > 0 && isFilterOpen && (
+                <div className="flex h-[40px] p-[5px] justify-between items-center rounded-[12px] border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)] backdrop-blur-[20px] ml-[175px]">
+                    <div className="h-[36px] flex justify-start items-center">
+                        {/* All tab */}
                         <button
-                            key={tab.id}
                             type="button"
                             onClick={(e) => {
                                 e.stopPropagation()
-                                setActiveFilter(tab.id)
+                                setActiveFilter('all')
                             }}
                             className={cn(
-                                'h-[32px] px-[10px] rounded-[6px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
-                                activeFilter === tab.id
-                                    ? 'bg-[rgba(104,129,153,0.20)]'
-                                    : 'hover:bg-[rgba(104,129,153,0.10)]'
+                                'h-[30px] px-[10px] py-[7px] rounded-[9px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
+                                activeFilter === 'all'
+                                    ? 'bg-[#CBDBEB]'
+                                    : ''
                             )}
                         >
-              <span className="text-[#191925] text-[14px] font-medium leading-[16.8px]">
-                {tab.label}
-              </span>
                             <span
                                 className={cn(
-                                    'px-[6px] py-[2px] rounded-[4px] text-[12px] font-semibold',
+                                    'text-[16px] leading-[120%]',
+                                    activeFilter === 'all'
+                                        ? 'text-[#05284B] font-semibold'
+                                        : 'text-[#688199] font-medium'
+                                )}
+                                style={{ fontFeatureSettings: "'liga' off, 'clig' off" }}
+                            >
+                                All
+                            </span>
+                            <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-[#90A0AF] overflow-hidden">
+                                <div className="-rotate-90 text-center flex flex-col justify-end text-white text-[12px] font-medium tracking-[0.36px]">
+                                    {options.length}
+                                </div>
+                            </div>
+                        </button>
+
+                        {filterTabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setActiveFilter(tab.id)
+                                }}
+                                className={cn(
+                                    'h-[30px] px-[10px] py-[7px] rounded-[9px] flex justify-center items-center gap-[5px] cursor-pointer transition-colors',
                                     activeFilter === tab.id
-                                        ? 'bg-[#191925] text-white'
-                                        : 'bg-[rgba(104,129,153,0.30)] text-[#191925]'
+                                        ? 'bg-[#CBDBEB]'
+                                        : ''
                                 )}
                             >
-                {tab.count}
-              </span>
-                        </button>
-                    ))}
+                                <span
+                                    className={cn(
+                                        'text-[16px] leading-[120%]',
+                                        activeFilter === tab.id
+                                            ? 'text-[#05284B] font-semibold'
+                                            : 'text-[#688199] font-medium'
+                                    )}
+                                    style={{ fontFeatureSettings: "'liga' off, 'clig' off" }}
+                                >
+                                    {tab.label}
+                                </span>
+                                <div className="flex w-[16px] h-[20px] rotate-90 px-[3px] py-[8px] flex-col justify-center items-center gap-[10px] rounded-[7.177px] bg-[#90A0AF] overflow-hidden">
+                                    <div className="-rotate-90 text-center flex flex-col justify-end text-white text-[12px] font-medium tracking-[0.36px]">
+                                        {tab.count}
+                                    </div>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
 
                     {/* Info Icon */}
                     {showInfoIcon && (
                         <button
                             type="button"
                             onClick={stopPropagation}
-                            className="w-[32px] h-[32px] flex items-center justify-center rounded-full hover:bg-[rgba(104,129,153,0.10)] transition-colors cursor-pointer"
+                            className="h-[34px] px-[10px] py-[7px] rounded-[9px] flex justify-center items-center gap-[10px] transition-colors cursor-pointer"
                         >
-                            <Info className="w-[16px] h-[16px] text-[#688199]" />
+                            <InfoIcon />
                         </button>
                     )}
                 </div>
             )}
 
             {/* Options List */}
-            <div className="w-full flex flex-col gap-[5px] max-h-[250px] overflow-y-auto">
+            <div className="flex flex-col gap-[5px] max-h-[250px] overflow-y-auto ml-[175px]">
                 {filteredOptions.length === 0 ? (
                     <div className="w-full h-[55px] p-[10px] flex justify-center items-center">
             <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">

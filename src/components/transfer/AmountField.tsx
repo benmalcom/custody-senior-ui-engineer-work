@@ -102,11 +102,20 @@ export function AmountField({
     const formattedBalance = balance ? formatBalance(balance, decimals) : undefined
     const formattedFee = fee ? formatBalance(fee, decimals) : undefined
 
-    const balanceUsd = useMemo(() => {
-        if (!formattedBalance || !priceUsd) return undefined
-        const balanceNum = parseFloat(formattedBalance.replace(/,/g, '')) || 0
+    // Calculate available balance (balance - fee)
+    const availableBalance = useMemo(() => {
+        if (!balance || !fee) return undefined
+        const balanceBigInt = BigInt(balance)
+        const feeBigInt = BigInt(fee)
+        const available = balanceBigInt > feeBigInt ? balanceBigInt - feeBigInt : 0n
+        return formatBalance(available, decimals)
+    }, [balance, fee, decimals])
+
+    const availableBalanceUsd = useMemo(() => {
+        if (!availableBalance || !priceUsd) return undefined
+        const balanceNum = parseFloat(availableBalance.replace(/,/g, '')) || 0
         return balanceNum * priceUsd
-    }, [formattedBalance, priceUsd])
+    }, [availableBalance, priceUsd])
 
     const showBalanceLoading = isLoadingBalance && !isDisabled
     const showBalanceError = !isLoadingBalance && balanceError
@@ -122,7 +131,7 @@ export function AmountField({
                 'rounded-[12px] transition-colors duration-200',
                 'border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
                 !isDisabled && 'hover:bg-white',
-                (isActive || isFocused) &&
+                isFocused &&
                 'bg-[rgba(255,255,255,0.40)] shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]'
             )}
         >
@@ -208,7 +217,6 @@ export function AmountField({
                             <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 {error}
                             </span>
-                            <ErrorInfoIcon />
                         </div>
                     )}
                 </div>
@@ -231,14 +239,14 @@ export function AmountField({
                                 </span>
                                 <ErrorInfoIcon />
                             </>
-                        ) : !formattedBalance || !formattedFee ? (
+                        ) : !availableBalance ? (
                             <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
                                 -- {symbol}
                             </span>
                         ) : (
                             <span className="text-[#688199] text-[12px] font-medium leading-normal tracking-[0.36px]">
-                                $ {formatUsd(balanceUsd || 0)} ≈{' '}
-                                {formatTokenAmount(formattedBalance || '0')} {symbol}
+                                $ {formatUsd(availableBalanceUsd || 0)} ≈{' '}
+                                {formatTokenAmount(availableBalance || '0')} {symbol}
                             </span>
                         )}
                     </div>

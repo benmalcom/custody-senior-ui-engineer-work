@@ -1,10 +1,10 @@
 export const VALIDATION_MESSAGES = {
-    FROM_REQUIRED: 'From is required',
-    ASSET_REQUIRED: 'Asset is required',
-    TO_REQUIRED: 'To is required',
-    AMOUNT_REQUIRED: 'Amount is required',
+    FROM_REQUIRED: 'From required',
+    ASSET_REQUIRED: 'Asset required',
+    TO_REQUIRED: 'To required',
+    AMOUNT_REQUIRED: 'Amount required',
     AMOUNT_POSITIVE: 'Amount must be greater than 0',
-    MEMO_REQUIRED: 'Memo is required',
+    MEMO_REQUIRED: 'Memo required',
 } as const
 
 export const VALIDATION_CONSTRAINTS = {

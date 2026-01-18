@@ -2,7 +2,7 @@ import { cn } from '@/components/utils'
 import type { ReactNode } from 'react'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { SelectDropdown, type SelectOption, type FilterTab } from './SelectDropdown'
-import { ChevronDown, LoadingIcon, ErrorIcon, ErrorInfoIcon } from '@/components/icons'
+import { ChevronDown, LoadingIcon, ErrorIcon } from '@/components/icons'
 
 export type { SelectOption, FilterTab }
 
@@ -87,7 +87,7 @@ export function SelectField({
 
             <div className="flex-1 flex justify-between items-center">
                 <div>
-                    {isLoading && !isDisabled ? (
+                    {isLoading ? (
                         <div className="flex items-center gap-[8px]">
                             <span className="text-[#688199] text-[16px] font-medium leading-[19.2px]">
                                 {loadingText}
@@ -111,7 +111,7 @@ export function SelectField({
                 </div>
 
                 <div className="flex items-center">
-                    {isLoading && !isDisabled ? (
+                    {isLoading ? (
                         <LoadingIcon />
                     ) : hasError ? (
                         <ErrorIcon />
@@ -152,11 +152,10 @@ export function SelectField({
                         </button>
 
                         {hasValidationError && (
-                            <div className="flex items-center gap-[4px] mt-[8px] pl-[175px]">
+                            <div className="flex items-center gap-[4px] mt-[8px] pl-[200px]">
                                 <span className="text-[#E1856B] text-[12px] font-medium leading-normal tracking-[0.36px]">
                                     {validationError}
                                 </span>
-                                <ErrorInfoIcon />
                             </div>
                         )}
                     </div>

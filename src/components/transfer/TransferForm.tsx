@@ -237,7 +237,6 @@ export function TransferForm() {
                                     onFocus={() => setActiveStep('amount')}
                                     onBlur={() => {
                                         field.handleBlur()
-                                        setActiveStep(null)
                                     }}
                                 />
                             )}
@@ -317,7 +316,6 @@ export function TransferForm() {
                                     onFocus={() => setActiveStep('memo')}
                                     onBlur={() => {
                                         field.handleBlur()
-                                        setActiveStep(null)
                                     }}
                                 />
                             )}

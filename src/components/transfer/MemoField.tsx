@@ -32,8 +32,6 @@ export function MemoField({
         onBlur?.()
     }
 
-    const isActiveOrFocused = isActive || isFocused
-
     return (
         <div
             className={cn(
@@ -43,9 +41,9 @@ export function MemoField({
                 // Rest state
                 'gap-[80px] border border-[rgba(104,129,153,0.15)] bg-[rgba(255,255,255,0.40)]',
                 // Hover state (only when not disabled and not focused)
-                !isDisabled && !isActiveOrFocused && 'hover:bg-white',
-                // Active/focused state
-                isActiveOrFocused && 'bg-white shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]',
+                !isDisabled && !isFocused && 'hover:bg-white',
+                // Focused state
+                isFocused && 'bg-white shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]',
                 // Error state
                 error && 'border-[#D84E28]'
             )}
@@ -65,8 +63,8 @@ export function MemoField({
                     className={cn(
                         'h-[40px] flex justify-between items-center',
                         'rounded-[9px] transition-colors duration-200',
-                        // Active/focused state - add border and padding
-                        isActiveOrFocused && 'border border-[#90A0AF] px-[10px] pr-[5px]'
+                        // Focused state - add border and padding
+                        isFocused && 'border border-[#90A0AF] px-[10px] pr-[5px]'
                     )}
                 >
                     <input

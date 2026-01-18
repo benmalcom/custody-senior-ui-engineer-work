@@ -172,13 +172,13 @@ export function useTransferForm() {
 
     const handleReset = useCallback(() => {
         form.reset()
-        setActiveStep(null)
+        setActiveStep('from')
         setShowResetDialog(false)
     }, [form])
 
     const handleNewRequest = useCallback(() => {
         form.reset()
-        setActiveStep(null)
+        setActiveStep('from')
         setShowResetDialog(false)
         setIsSuccess(false)
     }, [form])
