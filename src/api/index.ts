@@ -1,4 +1,3 @@
-export * from './accounts'
 export * from './addresses'
 export * from './assets'
 export * from './fee'

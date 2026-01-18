@@ -1,6 +1,5 @@
 export * from './TransferForm'
 export * from './Stepper'
-export * from './FormField'
 export * from './SelectField'
 export * from './SelectDropdown'
 export * from './AmountField'

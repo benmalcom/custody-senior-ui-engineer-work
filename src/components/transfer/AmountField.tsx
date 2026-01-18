@@ -37,7 +37,6 @@ export function AmountField({
                                 decimals,
                                 symbol,
                                 icon,
-                                isActive,
                                 isDisabled,
                                 isLoadingBalance,
                                 isLoadingFee,
@@ -99,7 +98,6 @@ export function AmountField({
         setDisplayValue(formatted)
     }
 
-    const formattedBalance = balance ? formatBalance(balance, decimals) : undefined
     const formattedFee = fee ? formatBalance(fee, decimals) : undefined
 
     // Calculate available balance (balance - fee)

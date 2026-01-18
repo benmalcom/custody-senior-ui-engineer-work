@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import {
     fetchAssets,
     fetchVaults,
-    fetchAccounts,
     fetchAddressesForVault,
     fetchBalancesForVault,
     fetchFee,
@@ -22,14 +21,6 @@ export function useVaults() {
     return useQuery({
         queryKey: QUERY_KEYS.VAULTS,
         queryFn: fetchVaults,
-        retry: QUERY_CONFIG.DEFAULT_RETRY_COUNT,
-    })
-}
-
-export function useAccounts() {
-    return useQuery({
-        queryKey: QUERY_KEYS.ACCOUNTS,
-        queryFn: fetchAccounts,
         retry: QUERY_CONFIG.DEFAULT_RETRY_COUNT,
     })
 }
