@@ -7,7 +7,7 @@ import { SuccessScreen } from './SuccessScreen'
 import { ResetDialog } from './ResetDialog'
 import { useTransferForm } from './useTransferForm'
 import { transferFormSchema } from './schemas'
-import { User, Vault } from 'lucide-react'
+import { VaultIconWrapper, UserIconWrapper } from '@/components/icons'
 
 export function TransferForm() {
     const {
@@ -262,13 +262,9 @@ export function TransferForm() {
                                         selectedToAddress && (
                                             <div className="flex items-center gap-[10px]">
                                                 {selectedToAddress.isVault ? (
-                                                    <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                                                        <Vault className="h-[16px] w-[16px] text-[#191925]" />
-                                                    </div>
+                                                    <VaultIconWrapper />
                                                 ) : (
-                                                    <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                                                        <User className="h-[16px] w-[16px] text-[#191925]" />
-                                                    </div>
+                                                    <UserIconWrapper />
                                                 )}
                                                 <div className="flex flex-col justify-start items-start">
                                                     <span className="text-[#191925] text-base font-semibold leading-5">

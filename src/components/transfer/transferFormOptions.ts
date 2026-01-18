@@ -1,7 +1,8 @@
 import type { SelectOption } from './SelectField'
 import type { Asset } from '@/api/assets'
 import type { Vault } from '@/api/vaults'
-import { User, Vault as VaultIcon } from 'lucide-react'
+import { createElement } from 'react'
+import { VaultIconWrapper, UserIconWrapper, AssetIcon } from '@/components/icons'
 import { FILTER_TABS } from '@/constants/form'
 
 interface Address {
@@ -34,16 +35,7 @@ export function buildAssetOptions(
         sublabel: getNetworkName(asset.networkId),
         balance: '24.38 ' + asset.symbol,
         balanceUsd: '$876.72',
-        icon: (
-            <img
-                src={asset.logoUri}
-                alt={asset.symbol}
-                className="h-[30px] w-[30px] rounded-full"
-                onError={(e) => {
-                    e.currentTarget.src = 'https://via.placeholder.com/30'
-                }}
-            />
-        ),
+        icon: createElement(AssetIcon, { logoUri: asset.logoUri, symbol: asset.symbol }),
     }))
 }
 
@@ -76,15 +68,9 @@ export function buildToOptions(
                 sublabel,
                 address: addr.address,
                 filterIds,
-                icon: addr.isVault ? (
-                    <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                        <VaultIcon className="h-[16px] w-[16px] text-[#191925]" />
-                    </div>
-                ) : (
-                    <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#688199]/20">
-                        <User className="h-[16px] w-[16px] text-[#191925]" />
-                    </div>
-                ),
+                icon: addr.isVault
+                    ? createElement(VaultIconWrapper)
+                    : createElement(UserIconWrapper),
             }
         })
 }
