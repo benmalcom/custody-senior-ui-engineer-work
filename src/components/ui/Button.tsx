@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/lib/utils'
 
 export const buttonVariants = cva(
-    'inline-flex cursor-pointer items-center justify-center rounded-[9px] px-[20px] py-[12px] leading-[16px] font-semibold transition-all duration-200 disabled:cursor-not-allowed',
+    'inline-flex cursor-pointer items-center justify-center rounded-[9px] px-[20px] py-[12px] text-[16px] leading-[120%] font-semibold transition-all duration-200 disabled:cursor-not-allowed',
     {
         defaultVariants: {
             variant: 'primary',
@@ -12,9 +12,9 @@ export const buttonVariants = cva(
         variants: {
             variant: {
                 primary:
-                    'bg-gold-highlight-3 text-gold-highlight-dark hover:bg-gold-highlight-4 hover:text-gold-highlight-dark-2 disabled:bg-gold-highlight-2-transparency-40 disabled:text-gold-highlight-disabled',
+                    'bg-gold-highlight-3 text-gold-highlight-dark backdrop-blur-[7.5px] hover:bg-gold-highlight-4 hover:text-gold-highlight-dark-2 disabled:bg-gold-highlight-2-transparency-40 disabled:text-gold-highlight-disabled',
                 secondary:
-                    'bg-blue-5-transparency-30 text-blue-2 hover:bg-blue-5-transparency-15 hover:text-blue-4 disabled:bg-gray-5-transparency-50 disabled:text-gray-1',
+                    'bg-blue-5-transparency-30 text-blue-2 backdrop-blur-[7.5px] hover:bg-blue-5-transparency-15 hover:text-blue-4 disabled:bg-gray-5-transparency-50 disabled:text-gray-1',
                 tertiary: 'rounded-[12px] border border-card-border bg-card leading-[19px] hover:bg-white',
                 success:
                     'bg-green-highlight-2-transparency-40 text-green-highlight-dark-1 hover:bg-green-highlight-dark-2 hover:text-green-highlight-4 disabled:bg-green-highlight-2-transparency-40 disabled:text-green-highlight-2',
@@ -33,7 +33,18 @@ export type ButtonProps = ComponentProps<'button'> &
 export function Button({ asChild = false, className, variant, ...props }: ButtonProps) {
     const Comp = asChild ? Slot : 'button'
 
+    const style = {
+        fontFamily: 'Inter Tight',
+        fontFeatureSettings: "'liga' off, 'clig' off",
+        ...props.style
+    }
+
     return (
-        <Comp data-slot="button" className={cn(buttonVariants({ variant }), className)} {...props} />
+        <Comp
+            data-slot="button"
+            className={cn(buttonVariants({ variant }), className)}
+            style={style}
+            {...props}
+        />
     )
 }

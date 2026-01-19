@@ -82,7 +82,10 @@ export function SelectField({
     const triggerContent = (
         <div className="w-full min-h-[50px] flex flex-col sm:flex-row justify-start items-start sm:items-center gap-[12px] sm:gap-[80px]">
             <div className="w-full sm:w-[95px] shrink-0">
-                <span className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]">
+                <span
+                    className="text-blue-1 text-[20px] font-semibold leading-[21px]"
+                    style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                >
                     {label}
                 </span>
             </div>
@@ -102,7 +105,13 @@ export function SelectField({
                             </span>
                         </div>
                     ) : showPlaceholder ? (
-                        <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
+                        <span
+                            className={cn(
+                                'text-[16px] font-medium leading-[120%]',
+                                isOpen ? 'text-blue-1' : 'text-blue-5 group-hover:text-blue-1'
+                            )}
+                            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                        >
                             {placeholder}
                         </span>
                     ) : (
@@ -143,7 +152,7 @@ export function SelectField({
                             disabled={isDisabled}
                             onClick={handleToggle}
                             className={cn(
-                                'w-full min-h-[80px] px-[16px] sm:px-[25px] py-[15px] flex flex-col justify-center items-start',
+                                'group w-full min-h-[80px] px-[16px] sm:px-[25px] py-[15px] flex flex-col justify-center items-start',
                                 'rounded-[12px] text-left',
                                 'border border-blue-5-transparency-15 bg-white-transparency-40',
                                 !isDisabled && 'cursor-pointer hover:bg-white',

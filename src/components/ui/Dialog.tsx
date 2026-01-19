@@ -49,6 +49,7 @@ export function Dialog({ open, onClose, title, children }: DialogProps) {
                                     style={{
                                         fontFamily: '"Inter Tight"',
                                         lineHeight: '120%',
+                                        fontFeatureSettings: "'liga' off, 'clig' off",
                                     }}
                                 >
                                     {title}
@@ -74,10 +75,9 @@ export function DialogBody({ children }: DialogBodyProps) {
 
     return (
         <div
-            className="text-[#90A0AF] text-[16px] font-medium text-center"
+            className="text-[#90A0AF] text-[16px] font-medium text-center leading-[120%]"
             style={{
-                fontFamily: '"Inter Tight"',
-                lineHeight: '120%',
+                fontFamily: 'Inter Tight',
                 fontFeatureSettings: "'liga' off, 'clig' off",
             }}
         >

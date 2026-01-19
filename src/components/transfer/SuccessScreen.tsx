@@ -57,12 +57,18 @@ export function SuccessScreen({ onViewTransaction, onNewRequest }: SuccessScreen
                 <div className="flex flex-col items-center gap-[25px]">
                     {/* Text Content */}
                     <div className="w-[550px] flex flex-col items-center gap-[20px]">
-                        <h1 className="self-stretch text-[#191925] text-[40px] font-semibold leading-[48px]">
+                        <h1
+                            className="self-stretch text-[#191925] text-[40px] font-semibold leading-[120%] text-center"
+                            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                        >
                             Transaction
                             <br />
                             Successfully Created!
                         </h1>
-                        <p className="text-[#90A0AF] text-[16px] font-medium leading-[19.2px]">
+                        <p
+                            className="text-[#90A0AF] text-[16px] font-medium leading-[120%] text-center"
+                            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                        >
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             <br />
                             Pellentesque et pharetra lectus, ut rhoncus velit.
@@ -74,14 +80,16 @@ export function SuccessScreen({ onViewTransaction, onNewRequest }: SuccessScreen
                         <button
                             type="button"
                             onClick={onViewTransaction}
-                            className="h-[45px] flex-1 backdrop-blur-[7.5px] rounded-[9px] bg-[rgba(104,129,153,0.3)] flex items-center justify-center px-[20px] py-[12px] text-[#05284B] font-semibold leading-[19.2px] cursor-pointer hover:bg-[rgba(104,129,153,0.4)] transition-colors"
+                            className="h-[45px] flex-1 backdrop-blur-[7.5px] rounded-[9px] bg-[rgba(104,129,153,0.3)] flex items-center justify-center px-[20px] py-[12px] text-[#05284B] text-[16px] font-semibold leading-[120%] text-center cursor-pointer hover:bg-[rgba(104,129,153,0.4)] transition-colors"
+                            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
                         >
                             View Transaction
                         </button>
                         <button
                             type="button"
                             onClick={onNewRequest}
-                            className="h-[45px] flex-1 rounded-[9px] bg-[#E2C889] flex items-center justify-center px-[13px] py-[12px] text-[#473508] font-semibold leading-[19.2px] cursor-pointer hover:bg-[#d4b97a] transition-colors"
+                            className="h-[45px] flex-1 rounded-[9px] bg-[#E2C889] flex items-center justify-center gap-[10px] px-[13px] py-[12px] text-[#473508] text-[16px] font-semibold leading-[120%] text-center cursor-pointer hover:bg-[#d4b97a] transition-colors"
+                            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
                         >
                             New Request
                         </button>

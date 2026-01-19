@@ -18,10 +18,9 @@ export function ResetDialog({ open, onClose, onConfirm }: ResetDialogProps) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 h-[45px] px-[20px] py-[12px] bg-[rgba(104,129,153,0.3)] rounded-[9px] backdrop-blur-[7.5px] flex items-center justify-center text-[#05284B] text-[16px] font-semibold text-center cursor-pointer hover:bg-[rgba(104,129,153,0.4)] transition-colors"
+                    className="flex-1 h-[45px] px-[20px] py-[12px] bg-[rgba(104,129,153,0.3)] rounded-[9px] backdrop-blur-[7.5px] flex items-center justify-center text-[#05284B] text-[16px] font-semibold leading-[120%] text-center cursor-pointer hover:bg-[rgba(104,129,153,0.4)] transition-colors"
                     style={{
-                        fontFamily: '"Inter Tight"',
-                        lineHeight: '120%',
+                        fontFamily: 'Inter Tight',
                         fontFeatureSettings: "'liga' off, 'clig' off",
                     }}
                 >

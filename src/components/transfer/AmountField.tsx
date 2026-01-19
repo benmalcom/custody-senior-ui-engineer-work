@@ -27,6 +27,7 @@ interface AmountFieldProps {
     onFocus?: () => void
     onBlur?: () => void
     priceUsd?: number
+    networkId?: string
 }
 
 export function AmountField({
@@ -46,11 +47,24 @@ export function AmountField({
                                 onFocus,
                                 onBlur,
                                 priceUsd = 0.037624,
+                                networkId,
                             }: AmountFieldProps) {
     const [displayValue, setDisplayValue] = useState(value)
     const [isFocused, setIsFocused] = useState(false)
+    const [isUsdMode, setIsUsdMode] = useState(false)
 
     const hasValue = value && parseFloat(value) > 0
+
+    // Get native currency symbol from network ID
+    const getNativeCurrency = (netId?: string): string => {
+        if (!netId) return ''
+        if (netId.includes('eip155:11155111')) return 'ETH'
+        if (netId.includes('avax') || netId.includes('43113')) return 'AVAX'
+        if (netId.includes('bip122')) return 'BTC'
+        return ''
+    }
+
+    const nativeCurrency = getNativeCurrency(networkId)
 
     useEffect(() => {
         if (!isFocused) {
@@ -137,7 +151,10 @@ export function AmountField({
             <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[12px] sm:gap-[80px]">
                 {/* Label */}
                 <div className="w-full sm:w-[95px] shrink-0">
-                    <span className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]">
+                    <span
+                        className="text-blue-1 text-[20px] font-semibold leading-[21px]"
+                        style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                    >
                         Amount
                     </span>
                 </div>
@@ -172,8 +189,8 @@ export function AmountField({
 
                             {/* Token Badge */}
                             {symbol && (
-                                <div className="flex items-center gap-[6px]">
-                                    {icon && (
+                                <div className="flex items-center gap-[5px]">
+                                    {(icon || isUsdMode) && (
                                         <div
                                             className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0"
                                             style={{
@@ -182,11 +199,19 @@ export function AmountField({
                                                 backgroundBlendMode: 'normal, color-burn, normal',
                                             }}
                                         >
-                                            <div className="w-full h-full">{icon}</div>
+                                            {isUsdMode ? (
+                                                <img
+                                                    src="/images/usdt_logo.svg"
+                                                    alt="USDT"
+                                                    className="w-full h-full"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full">{icon}</div>
+                                            )}
                                         </div>
                                     )}
                                     <span className="text-blue-1 text-[12px] font-semibold">
-                                        {symbol}
+                                        {isUsdMode ? 'USDT' : symbol}
                                     </span>
                                 </div>
                             )}
@@ -248,6 +273,22 @@ export function AmountField({
                             </span>
                         )}
                     </div>
+                    <button
+                        type="button"
+                        onClick={() => setIsUsdMode(!isUsdMode)}
+                        disabled={isDisabled || !hasValue || !nativeCurrency}
+                        className="text-[12px] font-medium leading-normal tracking-[0.36px] underline transition-colors"
+                        style={{
+                            color: (isDisabled || !hasValue || !nativeCurrency) ? '#81ACD6' : '#3470AB',
+                            fontFamily: 'Inter Tight',
+                            fontFeatureSettings: "'liga' off, 'clig' off",
+                            textDecorationSkipInk: 'none',
+                            textUnderlinePosition: 'from-font',
+                            cursor: (isDisabled || !hasValue || !nativeCurrency) ? 'not-allowed' : 'pointer'
+                        }}
+                    >
+                        {isUsdMode && nativeCurrency ? `Amt. in ${nativeCurrency}` : 'Amt. in USD'}
+                    </button>
                 </div>
             </div>
 

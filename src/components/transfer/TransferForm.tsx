@@ -236,6 +236,7 @@ export function TransferForm() {
                                     }
                                     feeError={feeError ? 'Unable to load fee' : undefined}
                                     error={field.state.meta.errors?.[0]}
+                                    networkId={selectedAsset?.networkId}
                                     onFocus={() => setActiveStep('amount')}
                                     onBlur={() => {
                                         field.handleBlur()

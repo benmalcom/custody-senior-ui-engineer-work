@@ -50,11 +50,12 @@ export function MemoField({
         >
             {/* Label */}
             <div className="w-full sm:w-[95px] shrink-0">
-        <span
-            className="text-blue-1 text-[18px] sm:text-[20px] font-semibold leading-[21px]"
-        >
-          Memo
-        </span>
+                <span
+                    className="text-blue-1 text-[20px] font-semibold leading-[21px]"
+                    style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
+                >
+                    Memo
+                </span>
             </div>
 
             {/* Input Container */}
@@ -63,8 +64,8 @@ export function MemoField({
                     className={cn(
                         'h-[40px] flex justify-between items-center',
                         'rounded-[9px] transition-colors duration-200',
-                        // Focused state - add border and padding
-                        isFocused && 'border border-gray-1 px-[10px] pr-[5px]'
+                        isFocused && 'border px-[10px] pr-[5px]',
+                        isFocused && (error ? 'border-red-highlight-1' : 'border-gray-1')
                     )}
                 >
                     <input
@@ -77,10 +78,11 @@ export function MemoField({
                         disabled={isDisabled}
                         className={cn(
                             'flex-1 h-full bg-transparent outline-none',
-                            'text-blue-1 text-[16px] font-medium leading-[19.2px]',
+                            'text-blue-1 text-[16px] font-medium leading-[120%]',
                             'placeholder:text-blue-5',
                             isDisabled && 'cursor-not-allowed'
                         )}
+                        style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
                     />
                 </div>
 
