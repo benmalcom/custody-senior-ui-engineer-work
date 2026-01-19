@@ -6,15 +6,20 @@
     "indentWidth": 2,
     "lineWidth": 100
   },
+
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noArrayIndexKey": "warn"
       },
       "style": {
         "useConst": "warn"
+      },
+      "a11y": {
+        "noStaticElementInteractions": "warn"
       }
     }
   },
@@ -23,5 +28,9 @@
       "quoteStyle": "single",
       "semicolons": "asNeeded"
     }
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["**", "!**/dist", "!**/build", "!**/vite.config.ts.timestamp-*.mjs"]
   }
 }

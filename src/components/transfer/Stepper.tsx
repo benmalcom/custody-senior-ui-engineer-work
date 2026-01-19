@@ -10,7 +10,8 @@ export function Stepper({ activeStep, totalSteps = 5 }: StepperProps) {
     <div className="flex flex-row lg:flex-col items-center lg:items-end gap-[9px]">
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
-          key={index}
+          // biome-ignore lint/suspicious/noArrayIndexKey: Static list that never reorders
+          key={`step-${index}`}
           className={cn(
             // Horizontal on mobile
             'h-[5px] lg:w-[5px] relative',

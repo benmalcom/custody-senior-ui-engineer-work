@@ -70,20 +70,12 @@ export function SelectDropdown({
   }
 
   return (
-    <div
-      className="w-full flex flex-col gap-[15px]"
-      onClick={stopPropagation}
-      onKeyDown={(e) => e.stopPropagation()}
-      role="presentation"
-    >
+    <div className="w-full flex flex-col gap-[15px]">
       {/* Search and Filter Row */}
       {showSearch && (
         <div className="flex justify-start items-center gap-[10px] sm:ml-[175px]">
           {/* Search Input */}
-          <div
-            className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-blue-5-transparency-30"
-            onClick={stopPropagation}
-          >
+          <div className="flex-1 h-[40px] px-[10px] py-[12px] flex items-center gap-[10px] rounded-[9px] border border-blue-5-transparency-30">
             <Search className="w-[21px] h-[21px] text-blue-1" strokeWidth={1.5} />
             <input
               type="text"

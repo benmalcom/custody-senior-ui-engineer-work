@@ -25,14 +25,13 @@ export function Dialog({ open, onClose, title, children }: DialogProps) {
   return (
     <DialogContext.Provider value={true}>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/30 backdrop-blur-[2px] z-50"
+      <button
+        type="button"
+        className="fixed inset-0 bg-black/30 backdrop-blur-[2px] z-50 border-0 p-0 cursor-default"
         onClick={onClose}
         onKeyDown={(e) => {
           if (e.key === 'Escape') onClose()
         }}
-        role="button"
-        tabIndex={0}
         aria-label="Close dialog"
       />
 
