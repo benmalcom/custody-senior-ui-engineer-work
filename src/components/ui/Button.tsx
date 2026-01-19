@@ -1,50 +1,50 @@
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { ComponentProps } from 'react'
+import { FONT_STYLES } from '@/lib/styles'
 import { cn } from '@/lib/utils'
 
 export const buttonVariants = cva(
-    'inline-flex cursor-pointer items-center justify-center rounded-[9px] px-[20px] py-[12px] text-[16px] leading-[120%] font-semibold transition-all duration-200 disabled:cursor-not-allowed',
-    {
-        defaultVariants: {
-            variant: 'primary',
-        },
-        variants: {
-            variant: {
-                primary:
-                    'bg-gold-highlight-3 text-gold-highlight-dark backdrop-blur-[7.5px] hover:bg-gold-highlight-4 hover:text-gold-highlight-dark-2 disabled:bg-gold-highlight-2-transparency-40 disabled:text-gold-highlight-disabled',
-                secondary:
-                    'bg-blue-5-transparency-30 text-blue-2 backdrop-blur-[7.5px] hover:bg-blue-5-transparency-15 hover:text-blue-4 disabled:bg-gray-5-transparency-50 disabled:text-gray-1',
-                tertiary: 'rounded-[12px] border border-card-border bg-card leading-[19px] hover:bg-white',
-                success:
-                    'bg-green-highlight-2-transparency-40 text-green-highlight-dark-1 hover:bg-green-highlight-dark-2 hover:text-green-highlight-4 disabled:bg-green-highlight-2-transparency-40 disabled:text-green-highlight-2',
-                destructive:
-                    'bg-red-highlight-2-transparency-40 text-red-highlight-1 hover:bg-red-highlight-1 hover:text-red-highlight-4 disabled:bg-red-highlight-2-transparency-40 disabled:text-red-highlight-2',
-            },
-        },
+  'inline-flex cursor-pointer items-center justify-center rounded-[9px] px-[20px] py-[12px] text-[16px] leading-[120%] font-semibold transition-all duration-200 disabled:cursor-not-allowed',
+  {
+    defaultVariants: {
+      variant: 'primary',
     },
+    variants: {
+      variant: {
+        primary:
+          'bg-gold-highlight-3 text-gold-highlight-dark backdrop-blur-[7.5px] hover:bg-gold-highlight-4 hover:text-gold-highlight-dark-2 disabled:bg-gold-highlight-2-transparency-40 disabled:text-gold-highlight-disabled',
+        secondary:
+          'bg-blue-5-transparency-30 text-blue-2 backdrop-blur-[7.5px] hover:bg-blue-5-transparency-15 hover:text-blue-4 disabled:bg-gray-5-transparency-50 disabled:text-gray-1',
+        tertiary: 'rounded-[12px] border border-card-border bg-card leading-[19px] hover:bg-white',
+        success:
+          'bg-green-highlight-2-transparency-40 text-green-highlight-dark-1 hover:bg-green-highlight-dark-2 hover:text-green-highlight-4 disabled:bg-green-highlight-2-transparency-40 disabled:text-green-highlight-2',
+        destructive:
+          'bg-red-highlight-2-transparency-40 text-red-highlight-1 hover:bg-red-highlight-1 hover:text-red-highlight-4 disabled:bg-red-highlight-2-transparency-40 disabled:text-red-highlight-2',
+      },
+    },
+  },
 )
 
 export type ButtonProps = ComponentProps<'button'> &
-    VariantProps<typeof buttonVariants> & {
+  VariantProps<typeof buttonVariants> & {
     asChild?: boolean
-}
+  }
 
 export function Button({ asChild = false, className, variant, ...props }: ButtonProps) {
-    const Comp = asChild ? Slot : 'button'
+  const Comp = asChild ? Slot : 'button'
 
-    const style = {
-        fontFamily: 'Inter Tight',
-        fontFeatureSettings: "'liga' off, 'clig' off",
-        ...props.style
-    }
+  const style = {
+    ...FONT_STYLES,
+    ...props.style,
+  }
 
-    return (
-        <Comp
-            data-slot="button"
-            className={cn(buttonVariants({ variant }), className)}
-            style={style}
-            {...props}
-        />
-    )
+  return (
+    <Comp
+      data-slot="button"
+      className={cn(buttonVariants({ variant }), className)}
+      style={style}
+      {...props}
+    />
+  )
 }
