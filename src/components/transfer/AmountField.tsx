@@ -17,7 +17,6 @@ interface AmountFieldProps {
   decimals: number
   symbol?: string
   icon?: ReactNode
-  isActive?: boolean
   isDisabled?: boolean
   isLoadingBalance?: boolean
   isLoadingFee?: boolean
@@ -150,13 +149,8 @@ export function AmountField({
       {/* Amount Row */}
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[12px] sm:gap-[80px]">
         {/* Label */}
-        <div className="w-full sm:w-[95px] shrink-0">
-          <span
-            className="text-blue-1 text-[20px] font-semibold leading-[21px]"
-            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
-          >
-            Amount
-          </span>
+        <div className="form-field-label-container">
+          <span className="form-field-label">Amount</span>
         </div>
 
         {/* Input and MAX button container */}
@@ -231,9 +225,7 @@ export function AmountField({
           {/* Error Row - directly under input */}
           {error && (
             <div className="flex items-center gap-[4px]">
-              <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
-                {error}
-              </span>
+              <span className="form-field-error">{error}</span>
             </div>
           )}
         </div>
@@ -251,9 +243,7 @@ export function AmountField({
               <LoadingIcon />
             ) : showBalanceError ? (
               <>
-                <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
-                  {balanceError}
-                </span>
+                <span className="form-field-error">{balanceError}</span>
                 <ErrorInfoIcon />
               </>
             ) : !availableBalance ? (
@@ -271,11 +261,9 @@ export function AmountField({
             type="button"
             onClick={() => setIsUsdMode(!isUsdMode)}
             disabled={isDisabled || !hasValue || !nativeCurrency}
-            className="text-[12px] font-medium leading-normal tracking-[0.36px] underline transition-colors"
+            className="text-[12px] font-medium leading-normal tracking-[0.36px] underline transition-colors font-inter-tight"
             style={{
               color: isDisabled || !hasValue || !nativeCurrency ? '#81ACD6' : '#3470AB',
-              fontFamily: 'Inter Tight',
-              fontFeatureSettings: "'liga' off, 'clig' off",
               textDecorationSkipInk: 'none',
               textUnderlinePosition: 'from-font',
               cursor: isDisabled || !hasValue || !nativeCurrency ? 'not-allowed' : 'pointer',
@@ -288,7 +276,7 @@ export function AmountField({
 
       {/* Fee Row */}
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-[12px] sm:gap-[80px] pt-[10px] border-t border-blue-5-transparency-15">
-        <div className="w-full sm:w-[95px] shrink-0 flex items-center gap-[6px]">
+        <div className="form-field-label-container flex items-center gap-[6px]">
           <span className="text-blue-1 text-[14px] sm:text-[16px] font-semibold leading-[19.2px]">
             Fee
           </span>
@@ -300,9 +288,7 @@ export function AmountField({
             <LoadingIcon />
           ) : showFeeError ? (
             <div className="flex items-center gap-[4px]">
-              <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
-                {feeError}
-              </span>
+              <span className="form-field-error">{feeError}</span>
               <ErrorInfoIcon />
             </div>
           ) : showFeePlaceholder ? (

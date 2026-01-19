@@ -81,13 +81,8 @@ export function SelectField({
 
   const triggerContent = (
     <div className="w-full min-h-[50px] flex flex-col sm:flex-row justify-start items-start sm:items-center gap-[12px] sm:gap-[80px]">
-      <div className="w-full sm:w-[95px] shrink-0">
-        <span
-          className="text-blue-1 text-[20px] font-semibold leading-[21px]"
-          style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
-        >
-          {label}
-        </span>
+      <div className="form-field-label-container">
+        <span className="form-field-label">{label}</span>
       </div>
 
       <div className="flex-1 w-full flex justify-between items-center">
@@ -107,10 +102,13 @@ export function SelectField({
           ) : showPlaceholder ? (
             <span
               className={cn(
-                'text-[16px] font-medium leading-[120%]',
-                isOpen ? 'text-blue-1' : 'text-blue-5 group-hover:text-blue-1',
+                'text-[16px] font-medium leading-[120%] font-inter-tight',
+                isOpen
+                  ? 'text-blue-1'
+                  : isDisabled
+                    ? 'text-blue-5'
+                    : 'text-blue-5 group-hover:text-blue-1',
               )}
-              style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
             >
               {placeholder}
             </span>
@@ -159,6 +157,7 @@ export function SelectField({
                 'rounded-[12px] text-left',
                 'border border-blue-5-transparency-15 bg-white-transparency-40',
                 !isDisabled && 'cursor-pointer hover:bg-white',
+                isDisabled && 'cursor-not-allowed',
                 (hasError || hasValidationError) && 'border-red-highlight-1',
               )}
             >
@@ -167,9 +166,7 @@ export function SelectField({
 
             {hasValidationError && (
               <div className="flex items-center gap-[4px] mt-[8px] pl-[16px] sm:pl-[200px]">
-                <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
-                  {validationError}
-                </span>
+                <span className="form-field-error">{validationError}</span>
               </div>
             )}
           </div>

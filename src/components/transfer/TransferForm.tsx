@@ -12,7 +12,6 @@ import { SuccessScreen } from './SuccessScreen'
 export function TransferForm() {
   const {
     // State
-    activeStep,
     setActiveStep,
     showResetDialog,
     setShowResetDialog,
@@ -81,10 +80,7 @@ export function TransferForm() {
       {/* Title aligned with stepper column on desktop */}
       <div className="flex gap-[24px] mb-[20px]">
         <div className="w-full lg:w-[198px]">
-          <span
-            className="text-blue-1 text-[24px] md:text-[30px] font-semibold leading-[120%]"
-            style={{ fontFamily: '"Inter Tight"' }}
-          >
+          <span className="text-blue-1 text-[24px] md:text-[30px] font-semibold leading-[120%] font-inter-tight">
             Transfer
           </span>
         </div>
@@ -225,7 +221,6 @@ export function TransferForm() {
                       />
                     )
                   }
-                  isActive={activeStep === 'amount'}
                   isDisabled={!selectedAssetId}
                   isLoadingBalance={balancesLoading}
                   isLoadingFee={feeLoading}
@@ -302,7 +297,6 @@ export function TransferForm() {
                 <MemoField
                   value={field.state.value ?? ''}
                   onChange={(val) => field.handleChange(val)}
-                  isActive={activeStep === 'memo'}
                   isDisabled={!selectedAssetId}
                   error={field.state.meta.errors?.[0]}
                   onFocus={() => setActiveStep('memo')}

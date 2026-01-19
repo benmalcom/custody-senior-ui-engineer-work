@@ -4,6 +4,7 @@
 @theme {
   /* Fonts */
   --font-sans: "Inter Tight Variable", sans-serif;
+  --font-inter-tight: "Inter Tight Variable", sans-serif;
   /* Palette Colors */
   --color-blue-1: #191925;
   --color-blue-2: #05284b;
@@ -87,6 +88,27 @@
 :root {
   --spacing: 5px;
   --radius: 8px;
+}
+
+.font-inter-tight {
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+}
+
+/* Form Field Components */
+@layer components {
+  .form-field-label {
+    @apply text-blue-1 text-[20px] font-semibold leading-[21px] font-inter-tight;
+  }
+
+  .form-field-label-container {
+    @apply w-full sm:w-[95px] shrink-0;
+  }
+
+  .form-field-error {
+    @apply text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px];
+  }
 }
 
 body {

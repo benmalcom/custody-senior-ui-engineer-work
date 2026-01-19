@@ -2,8 +2,8 @@ import { createElement } from 'react'
 import type { Asset } from '@/api/assets'
 import type { Vault } from '@/api/vaults'
 import { AssetIcon, UserIconWrapper, VaultIconWrapper } from '@/components/icons'
+import type { SelectOption } from '@/components/transfer/SelectField'
 import { FILTER_TABS } from '@/constants/form'
-import type { SelectOption } from './SelectField'
 
 interface Address {
   address: string

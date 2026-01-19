@@ -40,13 +40,8 @@ export function MemoField({ value, onChange, isDisabled, error, onFocus, onBlur 
       )}
     >
       {/* Label */}
-      <div className="w-full sm:w-[95px] shrink-0">
-        <span
-          className="text-blue-1 text-[20px] font-semibold leading-[21px]"
-          style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
-        >
-          Memo
-        </span>
+      <div className="form-field-label-container">
+        <span className="form-field-label">Memo</span>
       </div>
 
       {/* Input Container */}
@@ -70,19 +65,16 @@ export function MemoField({ value, onChange, isDisabled, error, onFocus, onBlur 
             className={cn(
               'flex-1 h-full bg-transparent outline-none',
               'text-blue-1 text-[16px] font-medium leading-[120%]',
-              'placeholder:text-blue-5',
+              'placeholder:text-blue-5 font-inter-tight',
               isDisabled && 'cursor-not-allowed',
             )}
-            style={{ fontFamily: 'Inter Tight', fontFeatureSettings: "'liga' off, 'clig' off" }}
           />
         </div>
 
         {/* Error Row */}
         {error && (
           <div className="flex items-center gap-[4px]">
-            <span className="text-red-highlight-2 text-[12px] font-medium leading-normal tracking-[0.36px]">
-              {error}
-            </span>
+            <span className="form-field-error">{error}</span>
           </div>
         )}
       </div>
