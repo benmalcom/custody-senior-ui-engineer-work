@@ -138,84 +138,77 @@ export function SelectField({
   )
 
   return (
-    <div ref={containerRef} className="relative" style={{ zIndex: isOpen ? 50 : 'auto' }}>
-      <div
-        className={cn(
-          'min-h-[80px]',
-          hasValidationError && !isOpen && 'min-h-[120px] sm:min-h-[100px]',
-        )}
-      >
-        {/* Closed state */}
-        {!isOpen && (
-          <div className="flex flex-col">
-            <button
-              type="button"
-              disabled={isDisabled}
-              onClick={handleToggle}
-              className={cn(
-                'group w-full min-h-[80px] px-[16px] sm:px-[25px] py-[15px] flex flex-col justify-center items-start',
-                'rounded-[12px] text-left',
-                'border border-blue-5-transparency-15 bg-white-transparency-40',
-                !isDisabled && 'cursor-pointer hover:bg-white',
-                isDisabled && 'cursor-not-allowed',
-                (hasError || hasValidationError) && 'border-red-highlight-1',
-              )}
-            >
-              {triggerContent}
-            </button>
-
-            {hasValidationError && (
-              <div className="flex items-center gap-[4px] mt-[8px] pl-[16px] sm:pl-[200px]">
-                <span className="form-field-error">{validationError}</span>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Open state */}
-        {isOpen && (
-          <div
+    <div ref={containerRef}>
+      {/* Closed state */}
+      {!isOpen && (
+        <div className="flex flex-col">
+          <button
+            type="button"
+            disabled={isDisabled}
+            onClick={handleToggle}
             className={cn(
-              'absolute left-0 right-0 top-0 w-full',
-              'px-[16px] sm:px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
-              'rounded-[12px]',
+              'group w-full min-h-[80px] px-[16px] sm:px-[25px] py-[15px] flex flex-col justify-center items-start',
+              'rounded-[12px] text-left',
               'border border-blue-5-transparency-15 bg-white-transparency-40',
-              'shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]',
+              !isDisabled && 'cursor-pointer hover:bg-white',
+              isDisabled && 'cursor-not-allowed',
+              (hasError || hasValidationError) && 'border-red-highlight-1',
             )}
           >
-            <button
-              type="button"
-              disabled={isDisabled}
-              onClick={handleToggle}
-              className="w-full text-left cursor-pointer"
-            >
-              {triggerContent}
-            </button>
+            {triggerContent}
+          </button>
 
-            {isLoading ? (
-              <div className="w-full flex items-center justify-center py-[20px] gap-[8px]">
-                <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
-                  {loadingText}
-                </span>
-                <LoadingIcon />
-              </div>
-            ) : (
-              <div className="w-full">
-                <SelectDropdown
-                  options={options}
-                  filterTabs={filterTabs}
-                  onSelect={handleSelect}
-                  selectedId={selectedId}
-                  searchPlaceholder={searchPlaceholder}
-                  showSearch={showSearch}
-                  showFilter={showFilter}
-                  showInfoIcon={showInfoIcon}
-                />
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          {hasValidationError && (
+            <div className="flex items-center gap-[4px] mt-[8px] pl-[16px] sm:pl-[200px]">
+              <span className="form-field-error">{validationError}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Open state */}
+      {isOpen && (
+        <div
+          className={cn(
+            'w-full',
+            'px-[16px] sm:px-[25px] py-[15px] flex flex-col items-start gap-[15px]',
+            'rounded-[12px]',
+            'border border-blue-5-transparency-15 bg-white-transparency-40',
+            'shadow-[0_4px_20px_0_rgba(104,129,153,0.30)] backdrop-blur-[20px]',
+          )}
+        >
+          <button
+            type="button"
+            disabled={isDisabled}
+            onClick={handleToggle}
+            className="w-full text-left cursor-pointer"
+          >
+            {triggerContent}
+          </button>
+
+          {isLoading ? (
+            <div className="w-full flex items-center justify-center py-[20px] gap-[8px]">
+              <span className="text-blue-5 text-[16px] font-medium leading-[19.2px]">
+                {loadingText}
+              </span>
+              <LoadingIcon />
+            </div>
+          ) : (
+            <div className="w-full">
+              <SelectDropdown
+                options={options}
+                filterTabs={filterTabs}
+                onSelect={handleSelect}
+                selectedId={selectedId}
+                searchPlaceholder={searchPlaceholder}
+                showSearch={showSearch}
+                showFilter={showFilter}
+                showInfoIcon={showInfoIcon}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
