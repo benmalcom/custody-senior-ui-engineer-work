@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import { MOCK_PRICE_USD } from '@/constants/form'
 import { AmountField } from './AmountField'
 
 describe('AmountField Component', () => {
@@ -78,7 +77,6 @@ describe('AmountField Component', () => {
     const user = userEvent.setup()
 
     // Start with a token value
-    const { rerender } = render(<AmountField {...defaultProps} value="100" />)
 
     // Should show "Amt. in USD" button
     expect(screen.getByText('Amt. in USD')).toBeInTheDocument()
@@ -120,13 +118,7 @@ describe('AmountField Component', () => {
   })
 
   it('disables MAX button when no balance or fee available', () => {
-    render(
-      <AmountField
-        {...defaultProps}
-        balance={undefined}
-        fee={undefined}
-      />,
-    )
+    render(<AmountField {...defaultProps} balance={undefined} fee={undefined} />)
 
     const maxButton = screen.getByText('MAX')
     expect(maxButton).toBeDisabled()
