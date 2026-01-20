@@ -272,7 +272,7 @@ export function TransferForm() {
                 <SelectField
                   label="To"
                   placeholder="Select destination"
-                  isDisabled={!selectedAssetId}
+                  isDisabled={!selectedAssetId || !form.state.values.amount}
                   validationError={field.state.meta.errors?.[0]}
                   selectedId={field.state.value}
                   value={
@@ -319,7 +319,7 @@ export function TransferForm() {
                 <MemoField
                   value={field.state.value ?? ''}
                   onChange={(val) => field.handleChange(val)}
-                  isDisabled={!selectedAssetId}
+                  isDisabled={!selectedAssetId || !form.state.values.toAddress}
                   error={field.state.meta.errors?.[0]}
                   onFocus={() => setActiveStep('memo')}
                   onBlur={() => {
