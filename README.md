@@ -32,7 +32,7 @@ A React + TypeScript transfer form application built with Vite, Tailwind CSS, an
 
    ```bash
    git clone <repository-url>
-   cd custody-senior-ui-engineer-take-home
+   cd custody-senior-ui-work
    ```
 
 2. **Install dependencies**:
