@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { ErrorInfoIcon, InfoIcon, LoadingIcon } from '@/components/icons'
+import { MOCK_PRICE_USD } from '@/constants/form'
 import { formatBalance, formatInputValue, formatTokenAmount, formatUsd } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
@@ -39,7 +40,7 @@ export function AmountField({
   error,
   onFocus,
   onBlur,
-  priceUsd = 0.037624,
+  priceUsd = MOCK_PRICE_USD,
   networkId,
 }: AmountFieldProps) {
   const [displayValue, setDisplayValue] = useState(value)
@@ -62,27 +63,48 @@ export function AmountField({
   useEffect(() => {
     if (!isFocused) {
       if (hasValue) {
-        setDisplayValue(formatInputValue(value))
+        if (isUsdMode) {
+          // Show USD value when not focused in USD mode
+          const tokenAmount = parseFloat(value.replace(/,/g, ''))
+          const usdAmount = (tokenAmount * priceUsd).toFixed(2)
+          setDisplayValue(usdAmount)
+        } else {
+          setDisplayValue(formatInputValue(value))
+        }
       } else {
         setDisplayValue('')
       }
     }
-  }, [value, isFocused, hasValue])
+  }, [value, isFocused, hasValue, isUsdMode, priceUsd])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/,/g, '')
     if (!/^[\d.]*$/.test(raw)) return
 
-    // Don't clean the value during typing - allow trailing decimals
-    // Only clean on blur to allow user to type "3333." before adding more digits
     setDisplayValue(e.target.value)
-    onChange(raw)
+
+    if (isUsdMode) {
+      // User is typing in USD - convert to token amount for storage
+      const usdAmount = parseFloat(raw) || 0
+      const tokenAmount = priceUsd > 0 ? usdAmount / priceUsd : 0
+      onChange(tokenAmount.toString())
+    } else {
+      // User is typing in token amount - store directly
+      onChange(raw)
+    }
   }
 
   const handleFocus = () => {
     setIsFocused(true)
     if (value) {
-      setDisplayValue(value)
+      if (isUsdMode) {
+        // Show USD value when focusing in USD mode
+        const tokenAmount = parseFloat(value.replace(/,/g, ''))
+        const usdAmount = (tokenAmount * priceUsd).toFixed(2)
+        setDisplayValue(usdAmount)
+      } else {
+        setDisplayValue(value)
+      }
     }
     onFocus?.()
   }
@@ -90,7 +112,14 @@ export function AmountField({
   const handleBlur = () => {
     setIsFocused(false)
     if (hasValue) {
-      setDisplayValue(formatInputValue(value))
+      if (isUsdMode) {
+        // Format as USD (2 decimal places)
+        const tokenAmount = parseFloat(value.replace(/,/g, ''))
+        const usdAmount = (tokenAmount * priceUsd).toFixed(2)
+        setDisplayValue(usdAmount)
+      } else {
+        setDisplayValue(formatInputValue(value))
+      }
     } else {
       setDisplayValue('')
     }
@@ -103,8 +132,18 @@ export function AmountField({
     const feeBigInt = BigInt(fee)
     const maxAmount = balanceBigInt > feeBigInt ? balanceBigInt - feeBigInt : 0n
     const formatted = formatBalance(maxAmount.toString(), decimals)
-    onChange(formatted.replace(/,/g, ''))
-    setDisplayValue(formatted)
+    const cleanValue = formatted.replace(/,/g, '')
+
+    if (isUsdMode) {
+      // Convert to USD for display
+      const tokenAmount = parseFloat(cleanValue)
+      const usdAmount = (tokenAmount * priceUsd).toFixed(2)
+      onChange(cleanValue) // Store token amount
+      setDisplayValue(usdAmount) // Display USD
+    } else {
+      onChange(cleanValue)
+      setDisplayValue(formatted)
+    }
   }
 
   const formattedFee = fee ? formatBalance(fee, decimals) : undefined
@@ -265,7 +304,22 @@ export function AmountField({
           </div>
           <button
             type="button"
-            onClick={() => setIsUsdMode(!isUsdMode)}
+            onClick={() => {
+              if (!hasValue || !value) return
+
+              const newMode = !isUsdMode
+              setIsUsdMode(newMode)
+
+              if (newMode) {
+                // Switching TO USD mode: convert token amount to USD
+                const tokenAmount = parseFloat(value.replace(/,/g, ''))
+                const usdAmount = (tokenAmount * priceUsd).toFixed(2)
+                setDisplayValue(usdAmount)
+              } else {
+                // Switching TO token mode: value is already in tokens, just reformat
+                setDisplayValue(formatInputValue(value))
+              }
+            }}
             disabled={isDisabled || !hasValue || !nativeCurrency}
             className="text-[12px] font-medium leading-normal tracking-[0.36px] underline transition-colors font-inter-tight"
             style={{
