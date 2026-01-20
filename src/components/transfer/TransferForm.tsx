@@ -1,6 +1,7 @@
 import { UserIconWrapper, VaultIconWrapper } from '@/components/icons'
 import { Button } from '@/components/ui'
 import { useTransferForm } from '@/hooks/transfer/useTransferForm'
+import { parseBalance } from '@/lib/format'
 import { transferFormSchema } from '@/schemas/transfer'
 import { AmountField } from './AmountField'
 import { MemoField } from './MemoField'
@@ -199,8 +200,29 @@ export function TransferForm() {
               name="amount"
               validators={{
                 onSubmit: ({ value }) => {
+                  // First check basic validation (required, positive)
                   const result = transferFormSchema.shape.amount.safeParse(value)
-                  return result.success ? undefined : result.error.issues[0]?.message
+                  if (!result.success) {
+                    return result.error.issues[0]?.message
+                  }
+
+                  // Then check if amount exceeds available balance
+                  if (selectedBalance && fee && selectedAsset) {
+                    const decimals = selectedAsset.decimals || 18
+
+                    // Convert amount to base units (wei) for comparison using parseBalance
+                    const amountInBaseUnits = parseBalance(value, decimals)
+                    const balanceBigInt = BigInt(selectedBalance)
+                    const feeBigInt = BigInt(fee)
+                    const availableBalance =
+                      balanceBigInt > feeBigInt ? balanceBigInt - feeBigInt : 0n
+
+                    if (amountInBaseUnits > availableBalance) {
+                      return 'Amount exceeds available balance'
+                    }
+                  }
+
+                  return undefined
                 },
               }}
             >

@@ -4,6 +4,7 @@ export const VALIDATION_MESSAGES = {
   TO_REQUIRED: 'To required',
   AMOUNT_REQUIRED: 'Amount required',
   AMOUNT_POSITIVE: 'Amount must be greater than 0',
+  AMOUNT_EXCEEDS_BALANCE: 'Amount exceeds available balance',
   MEMO_REQUIRED: 'Memo required',
 } as const
 

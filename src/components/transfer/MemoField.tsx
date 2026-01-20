@@ -59,7 +59,16 @@ export function MemoField({ value, onChange, isDisabled, error, onFocus, onBlur 
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onFocus={handleFocus}
-            onBlur={handleBlur}
+            onBlur={(e) => {
+              // Check if blur is happening because user is clicking submit button
+              const relatedTarget = e.relatedTarget as HTMLButtonElement
+              if (relatedTarget?.type === 'submit') {
+                setIsFocused(false)
+                onBlur?.()
+                return
+              }
+              handleBlur()
+            }}
             placeholder="Enter a memo"
             disabled={isDisabled}
             className={cn(

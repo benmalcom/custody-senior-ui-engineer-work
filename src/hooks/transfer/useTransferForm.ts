@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { submitTransfer } from '@/api'
 import type { SelectOption } from '@/components/transfer/SelectField'
 import { FORM_STEPS, type FormStep } from '@/constants/form'
+import { parseBalance } from '@/lib/format'
 import { useAddresses, useAssets, useBalances, useFee, useNetworks, useVaults } from '@/lib/queries'
 import {
   buildAssetOptions,
@@ -33,13 +34,24 @@ export function useTransferForm() {
         return
       }
 
+      // Get the selected asset to determine decimals
+      const asset = assets?.find((a) => a.id === value.assetId)
+      if (!asset) {
+        console.error('Asset not found:', value.assetId)
+        return
+      }
+
+      // Convert amount from human-readable to base units (wei)
+      const decimals = asset.decimals || 18
+      const amountInBaseUnits = parseBalance(value.amount, decimals)
+
       setIsSubmitting(true)
       try {
         await submitTransfer({
           vaultId: value.fromVaultId,
           accountIndex: value.fromAccountIndex,
           assetId: value.assetId,
-          amount: value.amount,
+          amount: amountInBaseUnits.toString(),
           to: value.toAddress,
           memo: value.memo || '',
         })

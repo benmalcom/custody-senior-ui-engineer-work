@@ -1,12 +1,6 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { ErrorInfoIcon, InfoIcon, LoadingIcon } from '@/components/icons'
-import {
-  cleanInputValue,
-  formatBalance,
-  formatInputValue,
-  formatTokenAmount,
-  formatUsd,
-} from '@/lib/format'
+import { formatBalance, formatInputValue, formatTokenAmount, formatUsd } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 interface AmountFieldProps {
@@ -79,8 +73,10 @@ export function AmountField({
     const raw = e.target.value.replace(/,/g, '')
     if (!/^[\d.]*$/.test(raw)) return
 
+    // Don't clean the value during typing - allow trailing decimals
+    // Only clean on blur to allow user to type "3333." before adding more digits
     setDisplayValue(e.target.value)
-    onChange(cleanInputValue(raw))
+    onChange(raw)
   }
 
   const handleFocus = () => {
@@ -168,7 +164,17 @@ export function AmountField({
                 value={displayValue}
                 onChange={handleChange}
                 onFocus={handleFocus}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  // Check if blur is happening because user is clicking submit button
+                  // If so, don't format the display value to avoid re-render that cancels click
+                  const relatedTarget = e.relatedTarget as HTMLButtonElement
+                  if (relatedTarget?.type === 'submit') {
+                    setIsFocused(false)
+                    onBlur?.()
+                    return
+                  }
+                  handleBlur()
+                }}
                 placeholder="0.00"
                 disabled={isDisabled}
                 className={cn(
